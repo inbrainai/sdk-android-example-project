@@ -1,0 +1,47 @@
+apply plugin: 'com.android.application'
+
+repositories {
+    maven { url "https://jitpack.io" }
+}
+
+android {
+    compileSdkVersion 28
+    signingConfigs {
+        release {
+            storeFile file('../keystore/release.keystore')
+            storePassword '123456'
+            keyAlias 'release'
+            keyPassword '123456'
+        }
+    }
+    defaultConfig {
+        applicationId "com.inbrain.example"
+        minSdkVersion 16
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+    }
+    applicationVariants.all { variant ->
+        changeApkFileName(variant)
+    }
+}
+
+dependencies {
+    debugImplementation project(':sdk-android')
+    releaseImplementation 'com.github.inbrainai:sdk-android:0.1.2'
+
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+}
+
+def changeApkFileName(variant) {
+    variant.outputs.all { output ->
+        outputFileName = 'inBrainExample_v.' + android.defaultConfig.versionName + '.' + android.defaultConfig.versionCode + '-' + variant.buildType.name + '.apk'
+    }
+}
