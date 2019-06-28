@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements InBrainCallback {
+    private static final String CLIENT_ID = "external-web-client"; // your client id obtained by your account manager
     private static final String CLIENT_SECRET = "l3!9hrl*olsdfliw#4uJO*f^j4ow8"; // your client secret obtained by your account manager
     private static final String APP_USER_ID = "1234-1234-1234-1234"; // your user id
     private float balance;
@@ -27,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements InBrainCallback {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        InBrain.init(this, "external-web-client", CLIENT_SECRET, this);
+        InBrain.init(this, CLIENT_ID, CLIENT_SECRET, this);
         InBrain.setAppUserId(APP_USER_ID);
         getRewards();
     }
@@ -48,7 +49,8 @@ public class MainActivity extends AppCompatActivity implements InBrainCallback {
     }
 
     /**
-     * Method which is used for notifying your application about available rewards
+     * Notifies your application about new rewards.
+     * You need to confirm receipt after processing rewards in your application.
      *
      * @param rewards  new rewards
      * @param callback callback which is need to be called after processing rewards to confirm them.
@@ -73,7 +75,9 @@ public class MainActivity extends AppCompatActivity implements InBrainCallback {
     }
 
     /**
-     * Request rewards manually. Not recommended. You need to receive new rewards in onRewardReceived method.
+     * Requests rewards manually. It's not recommended to use this method, you need to subscribe to Ad Events listener
+     *
+     * @see InBrainCallback
      */
     private void getRewards() {
         InBrain.getRewards(new GetRewardsCallback() {
@@ -96,8 +100,9 @@ public class MainActivity extends AppCompatActivity implements InBrainCallback {
     }
 
     /**
-     * Confirm rewards manually. Not recommended. You better confirm rewards using ReceivedRewardsListener.confirmRewardsReceived()
-     * while requesting rewards
+     * Confirms rewards manually, Not recommended. You better confirm rewards using ReceivedRewardsListener.confirmRewardsReceived()
+     *
+     * @param list list of rewards which need to be confirmed
      */
     private void confirmRewards(List<Reward> list) {
         InBrain.confirmRewards(list, new ConfirmRewardsCallback() {
