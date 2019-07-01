@@ -7,10 +7,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.inbrain.sdk.InBrain;
-import com.inbrain.sdk.callback.ConfirmRewardsCallback;
 import com.inbrain.sdk.callback.GetRewardsCallback;
 import com.inbrain.sdk.callback.InBrainCallback;
-import com.inbrain.sdk.callback.ReceivedRewardsListener;
 import com.inbrain.sdk.model.Reward;
 
 import java.util.Arrays;
@@ -28,8 +26,8 @@ public class MainActivity extends AppCompatActivity implements InBrainCallback {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        InBrain.init(this, CLIENT_ID, CLIENT_SECRET, this);
-        InBrain.setAppUserId(APP_USER_ID);
+        InBrain.getInstance().init(this, CLIENT_ID, CLIENT_SECRET, this);
+        InBrain.getInstance().setAppUserId(APP_USER_ID);
         getRewards();
     }
 
@@ -37,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements InBrainCallback {
      * Shows ad
      */
     public void showSurveys(View view) {
-        InBrain.showSurveys(this);
+        InBrain.getInstance().showSurveys(this);
     }
 
     /**
@@ -46,19 +44,21 @@ public class MainActivity extends AppCompatActivity implements InBrainCallback {
     @Override
     public void onAdClosed() {
         Log.d("MainActivity", "Ad closed");
+        // nice place to execute getRewards(), however it will be called automatically with delay
     }
 
     /**
      * Notifies your application about new rewards.
      * You need to confirm receipt after processing rewards in your application.
      *
-     * @param rewards  new rewards
-     * @param callback callback which is need to be called after processing rewards to confirm them.
+     * @param rewards new rewards
+     * @return false in case manual confirm, true - will be confirmed by SDK
      */
     @Override
-    public void onRewardReceived(List<Reward> rewards, ReceivedRewardsListener callback) {
+    public boolean handleRewards(List<Reward> rewards) {
+        Log.d("MainActivity", "onRewardReceived");
         processRewards(rewards);
-        callback.confirmRewardsReceived(rewards);
+        return chooseHowToConfirmRewards(rewards);
     }
 
     /**
@@ -75,21 +75,22 @@ public class MainActivity extends AppCompatActivity implements InBrainCallback {
     }
 
     /**
-     * Requests rewards manually. It's not recommended to use this method, you need to subscribe to Ad Events listener
+     * Requests rewards manually.
      *
      * @see InBrainCallback
      */
     private void getRewards() {
-        InBrain.getRewards(new GetRewardsCallback() {
+        InBrain.getInstance().getRewards(new GetRewardsCallback() {
+            /**
+             *
+             * @param rewards
+             * @return false in case manual confirm, true - will be confirmed by SDK
+             */
             @Override
-            public void onGetRewards(List<Reward> rewards, ReceivedRewardsListener confirmRewardsCallback) {
+            public boolean handleRewards(List<Reward> rewards) {
                 Log.d("MainActivity", "Received rewards:" + Arrays.toString(rewards.toArray()));
                 processRewards(rewards);
-                if (new Random().nextInt(10) % 2 == 0) {
-                    confirmRewardsCallback.confirmRewardsReceived(rewards);
-                } else {
-                    confirmRewards(rewards);
-                }
+                return chooseHowToConfirmRewards(rewards);
             }
 
             @Override
@@ -100,21 +101,26 @@ public class MainActivity extends AppCompatActivity implements InBrainCallback {
     }
 
     /**
-     * Confirms rewards manually, Not recommended. You better confirm rewards using ReceivedRewardsListener.confirmRewardsReceived()
+     * Randomly chooses how to confirm reward
+     *
+     * @param rewards rewards to confirm
+     * @return false in case manual confirm, true - will be confirmed by SDK
+     */
+    private boolean chooseHowToConfirmRewards(List<Reward> rewards) {
+        if (new Random().nextInt(10) % 2 == 0) {
+            return true;
+        } else {
+            confirmRewards(rewards);
+            return false;
+        }
+    }
+
+    /**
+     * Confirms rewards manually.
      *
      * @param list list of rewards which need to be confirmed
      */
     private void confirmRewards(List<Reward> list) {
-        InBrain.confirmRewards(list, new ConfirmRewardsCallback() {
-            @Override
-            public void onSuccessfullyConfirmRewards() {
-                Log.d("MainActivity", "onSuccessfullyConfirmRewards");
-            }
-
-            @Override
-            public void onFailToConfirmRewards(Throwable t) {
-                Log.e("MainActivity", "onFailToConfirmRewards:" + t.toString());
-            }
-        });
+        InBrain.getInstance().confirmRewards(list);
     }
 }
