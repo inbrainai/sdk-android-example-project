@@ -94,8 +94,10 @@ public class MainActivity extends AppCompatActivity implements InBrainCallback {
             }
 
             @Override
-            public void onFailToLoadRewards(Throwable t) {
-                Log.e("MainActivity", "onFailToLoadRewards:" + t.toString());
+            public void onFailToLoadRewards(int errorCode) {
+                if (errorCode == GetRewardsCallback.ERROR_CODE_UNKNOWN) {
+                    Log.e("MainActivity", "onFailToLoadRewards with unknown error");
+                }
             }
         });
     }
