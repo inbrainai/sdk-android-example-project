@@ -9,9 +9,9 @@ dependencies {
 Before showing inBrain screen, you need to initialize it by:
 `InBrain.getInstance().init(this, CLIENT_ID, CLIENT_SECRET, callback);`
 where:
-`CLIENT_ID` - Your client ID obtained by your account manager
-`CLIENT_SECRET` - Your client secret obtained by your account manager
-You also needed to initialize `callback` or make your `Activity` extends `InBrainCallback`, in this case you should use `InBrain.getInstance().init(this, CLIENT_ID, CLIENT_SECRET, this);`
+`CLIENT_ID` - Your client ID obtained by your account manager.
+`CLIENT_SECRET` - Your client secret obtained by your account manager.
+You also need to initialize `callback` or make your `Activity` extends `InBrainCallback`, in this case you should use `InBrain.getInstance().init(this, CLIENT_ID, CLIENT_SECRET, this);`
 ```java
 InBrainCallback callback = new InBrainCallback() {  
     @Override  
@@ -22,11 +22,14 @@ InBrainCallback callback = new InBrainCallback() {
   //Notifies your application about new rewards.
     @Override  
   public boolean handleRewards(List<Reward> rewards) {
-		// process rewards  
+	// process rewards  
         return true;  
     }  
 };
 ```
+
+**Set user ID:**
+`InBrain.getInstance().setAppUserId(USER_ID);` where `USER_ID` is your app user id, which is need to save surveys progress.
 ## Presenting the InBrain: 
 To present the inBrain Screen, execute 
  `InBrain.getInstance().showSurveys(this);`
@@ -55,4 +58,4 @@ InBrain.getInstance().getRewards(new GetRewardsCallback() {
     }  
 });
 ```
-**Don't forget to confirm received rewards to avoid duplicated rewards!**
+**Don't forget to confirm received rewards to avoid duplicate rewards!**
