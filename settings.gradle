@@ -1,2 +1,1 @@
-include ':app', ':sdk-android'
-project(':sdk-android').projectDir = new File('/Users/alex/work/inbrain-sdk/sdk')
+include ':app'
