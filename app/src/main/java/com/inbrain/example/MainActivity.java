@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.inbrain.sdk.InBrain;
 import com.inbrain.sdk.callback.GetRewardsCallback;
@@ -13,18 +14,25 @@ import com.inbrain.sdk.model.Reward;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String APP_USER_ID = "1234-1234-1234-1234"; // your user id
+    private static final String PREFERENCE_BALANCE = "Balance";
 
     private float balance;
+    private TextView balanceText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        InBrain.getInstance().setAppUserId(APP_USER_ID);
+        balance = getPreferences(MODE_PRIVATE).getFloat(PREFERENCE_BALANCE, 0);
+
+        balanceText = findViewById(R.id.balanceTv);
+        balanceText.setText(String.valueOf(balance));
+
+        InBrain.getInstance().setAppUserId("1234-1234-1234-1234"); // Custom app user id goes here!
     }
 
     @Override
@@ -43,11 +51,16 @@ public class MainActivity extends AppCompatActivity {
      * @param rewards
      */
     private void processRewards(List<Reward> rewards) {
+        float total = 0;
         for (Reward reward : rewards) {
-            balance += reward.amount;
+            total += reward.amount;
         }
-        TextView balanceTv = findViewById(R.id.balanceTv);
-        balanceTv.setText(String.valueOf(balance));
+        balance += total;
+        getPreferences(MODE_PRIVATE).edit().putFloat(PREFERENCE_BALANCE, balance).apply();
+        balanceText.setText(String.valueOf(balance));
+        Toast.makeText(MainActivity.this,
+                String.format(Locale.getDefault(), "You have received %d new rewards for a total of %.1f %s!", rewards.size(), total, rewards.get(0).currency),
+                Toast.LENGTH_LONG).show();
     }
 
     /**

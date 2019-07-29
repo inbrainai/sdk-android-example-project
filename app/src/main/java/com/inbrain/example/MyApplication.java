@@ -12,8 +12,8 @@ import java.util.List;
  * Created by Alex Kravchenko on 28/07/2019.
  */
 public class MyApplication extends Application {
-    private static final String CLIENT_ID = "external-web-client"; // your client id obtained by your account manager
-    private static final String CLIENT_SECRET = "l3!9hrl*olsdfliw#4uJO*f^j4ow8"; // your client secret obtained by your account manager
+    private static final String CLIENT_ID = "zap-surveys-android"; // your client id obtained by your account manager
+    private static final String CLIENT_SECRET = "zc=!'(S*d$qLQj8V(Cv{wJC-[S2vM]"; // your client secret obtained by your account manager
 
     @Override
     public void onCreate() {
