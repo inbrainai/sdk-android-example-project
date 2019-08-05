@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String APP_USER_ID = "1234-1234-1234-1234"; // your user id
 
     private float balance;
+    private InBrainCallback callback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,12 +26,31 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         InBrain.getInstance().setAppUserId(APP_USER_ID);
+        callback = new InBrainCallback() {
+            @Override
+            public void onClosed() {
+                // inBrain screen is closed & user get back to your application
+            }
+
+            @Override
+            public boolean handleRewards(List<Reward> rewards) {
+                // Here you can add to user balance and update UI:
+                return false;
+            }
+        };
+        InBrain.getInstance().addCallback(callback);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         getRewards();
+    }
+
+    @Override
+    protected void onDestroy() {
+        InBrain.getInstance().removeCallback(callback); // unsubscribe from events
+        super.onDestroy();
     }
 
     public void showSurveys(View view) {
