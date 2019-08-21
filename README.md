@@ -3,7 +3,7 @@
 Integration is easiest with gradle dependency. Just add the following implementation line into dependencies section of your build.gradle file (app module).
 ```groovy
 dependencies {  
-    implementation 'com.github.inbrainai:sdk-android:0.1.6'  
+    implementation 'com.github.inbrainai:sdk-android:0.1.7'  
 }
 ```
 ## Configure inBrain SDK
