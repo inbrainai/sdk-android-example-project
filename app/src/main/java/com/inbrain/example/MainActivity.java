@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     private float balance;
     private TextView balanceText;
+    private InBrainCallback callback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,12 +34,31 @@ public class MainActivity extends AppCompatActivity {
         balanceText.setText(String.valueOf(balance));
 
         InBrain.getInstance().setAppUserId("1234-1234-1234-1234"); // Custom app user id goes here!
+        callback = new InBrainCallback() {
+            @Override
+            public void onClosed() {
+                // inBrain screen is closed & user get back to your application
+            }
+
+            @Override
+            public boolean handleRewards(List<Reward> rewards) {
+                // Here you can add to user balance and update UI:
+                return false;
+            }
+        };
+        InBrain.getInstance().addCallback(callback);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         getRewards();
+    }
+
+    @Override
+    protected void onDestroy() {
+        InBrain.getInstance().removeCallback(callback); // unsubscribe from events
+        super.onDestroy();
     }
 
     public void showSurveys(View view) {
