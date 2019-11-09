@@ -1,11 +1,23 @@
 #  inBrain Android SDK ![API](https://img.shields.io/badge/API-16%2B-brightgreen.svg?style=flat) 
 ## Integration
-Integration is easiest with gradle dependency. Just add the following implementation line into dependencies section of your build.gradle file (app module).
+Integration is easiest with gradle dependency. In order to do that you need to add two pieces of code to your project. First goes into root build.gradle file. You need to add jitpack.io repository into list of repositories for all projects like this:
+```groovy
+allprojects {
+    repositories {
+        // other repositories here
+        maven { url 'https://jitpack.io' }
+    }
+}
+```
+After that you just need to add the actual SDK dependency into build.gradle of the app module:
 ```groovy
 dependencies {  
+    // other dependencies here
     implementation 'com.github.inbrainai:sdk-android:0.1.7'  
 }
 ```
+That is all! After re-syncing the project from gradle files you will be able to start using inBrain SDK.
+
 ## Configure inBrain SDK
 First of all you need to initialize the SDK using the following code in the Application class:
 ```
