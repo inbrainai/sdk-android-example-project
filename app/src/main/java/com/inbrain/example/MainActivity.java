@@ -101,6 +101,8 @@ public class MainActivity extends AppCompatActivity {
             public void onFailToLoadRewards(int errorCode) {
                 if (errorCode == GetRewardsCallback.ERROR_CODE_UNKNOWN) {
                     Log.e("MainActivity", "onFailToLoadRewards with unknown error");
+                }     if (errorCode == GetRewardsCallback.ERROR_CODE_INVALID_CLIENT_ID) {
+                    Log.e("MainActivity", "onFailToLoadRewards, please check client id");
                 }
             }
         });
