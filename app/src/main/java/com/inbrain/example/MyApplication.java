@@ -8,8 +8,8 @@ import com.inbrain.sdk.InBrain;
  * Created by Alex Kravchenko on 28/07/2019.
  */
 public class MyApplication extends Application {
-    private static final String CLIENT_ID = "external-web-client"; // your client id obtained by your account manager
-    private static final String CLIENT_SECRET = "l3!9hrl*olsdfliw#4uJO*f^j4ow8"; // your client secret obtained by your account manager
+    private static final String CLIENT_ID = "9c367c28-c8a4-498d-bf22-1f3682fc73aa"; // your client id obtained by your account manager
+    private static final String CLIENT_SECRET = "90MB8WyMZyYykgs0TaR21SqCcCZz3YTTXio9FoN5o5NJ6+svp3Q2tO8pvM9CjbskCaLAog0msmVTcIigKPQw4A=="; // your client secret obtained by your account manager
 
     @Override
     public void onCreate() {
