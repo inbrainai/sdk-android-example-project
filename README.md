@@ -1,4 +1,4 @@
-#  inBrain Android SDK ![API](https://img.shields.io/badge/API-16%2B-brightgreen.svg?style=flat) 
+#  inBrain Android SDK ![API](https://img.shields.io/badge/API-24%2B-brightgreen.svg?style=flat) 
 ## Integration
 Integration is easiest with gradle dependency. In order to do that you need to add two pieces of code to your project. First goes into root build.gradle file. You need to add jitpack.io repository into list of repositories for all projects like this:
 ```groovy
@@ -13,10 +13,18 @@ After that you just need to add the actual SDK dependency into build.gradle of t
 ```groovy
 dependencies {  
     // other dependencies here
-    implementation 'com.github.inbrainai:sdk-android:0.1.9'  
+    implementation 'com.github.inbrainai:sdk-android:0.1.10'  
 }
 ```
 That is all! After re-syncing the project from gradle files you will be able to start using inBrain SDK.
+
+## Minimum API level
+Minimum supported API level for surveys is 24, however you'll be available to request rewards on API 16+:
+```
+if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+    // hide show surveys button for example & display note for user
+}
+```
 
 ## Configure inBrain SDK
 First of all you need to initialize the SDK using the following code in the Application class:
