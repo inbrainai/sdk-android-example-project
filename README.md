@@ -1,4 +1,4 @@
-#  inBrain Android SDK ![API](https://img.shields.io/badge/API-24%2B-brightgreen.svg?style=flat) 
+#  inBrain Android SDK ![API](https://img.shields.io/badge/API-16%2B-brightgreen.svg?style=flat) 
 ## Integration
 Integration is easiest with gradle dependency. In order to do that you need to add two pieces of code to your project. First goes into root build.gradle file. You need to add jitpack.io repository into list of repositories for all projects like this:
 ```groovy
@@ -13,18 +13,10 @@ After that you just need to add the actual SDK dependency into build.gradle of t
 ```groovy
 dependencies {  
     // other dependencies here
-    implementation 'com.github.inbrainai:sdk-android:0.1.10'  
+    implementation 'com.github.inbrainai:sdk-android:0.1.11'  
 }
 ```
 That is all! After re-syncing the project from gradle files you will be able to start using inBrain SDK.
-
-## Minimum API level
-Minimum supported API level for surveys is 24, however you'll be available to request rewards on API 16+:
-```
-if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-    // hide show surveys button for example & display note for user
-}
-```
 
 ## Configure inBrain SDK
 First of all you need to initialize the SDK using the following code in the Application class:
@@ -41,9 +33,20 @@ Here `CLIENT_ID` is your client ID obtained from your account manager, `CLIENT_S
 `InBrain.getInstance().setAppUserId(USER_ID);` where `USER_ID` is the unique identifier of the current user. This should be done when you already know how to identify the current user. Usually that happens in the main activity of the app, after sign-up/sign-in process.
 
 ## Presenting the survey wall
+Minimum supported system WebView version for surveys is `51.0.2704.90`, it is default for Android 7.0, however older devices may have system update which updates WebView.
 In order to open inBrain survey wall, execute the following call:
 ```
-InBrain.getInstance().showSurveys(activity);
+InBrain.getInstance().showSurveys(activity, new StartSurveysCallback() {
+    @Override
+    public void onSuccess() {
+		// inBrain is successfully started
+    }
+
+    @Override
+    public void onFail(String message) {
+		// failed to start inBrain
+    }
+});
 ```
 This will open the survey wall in new activity. inBrain SDK will handle everything else. It will return control to last opened activity of your app after user leaves the survey wall.
 

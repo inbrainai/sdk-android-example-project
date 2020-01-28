@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.inbrain.sdk.InBrain;
 import com.inbrain.sdk.callback.GetRewardsCallback;
 import com.inbrain.sdk.callback.InBrainCallback;
+import com.inbrain.sdk.callback.StartSurveysCallback;
 import com.inbrain.sdk.model.Reward;
 
 import java.util.Arrays;
@@ -62,7 +63,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showSurveys(View view) {
-        InBrain.getInstance().showSurveys(this);
+        InBrain.getInstance().showSurveys(this, new StartSurveysCallback() {
+            @Override
+            public void onSuccess() {
+                Log.d("MainActivity", "Successfully started InBrain");
+            }
+
+            @Override
+            public void onFail(String message) {
+                Log.e("MainActivity", "Failed to start inBrain:" + message);
+                Toast.makeText(MainActivity.this, // show some message or dialog to user
+                        "Sorry, InBrain isn't supported on your device",
+                        Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     /**
@@ -101,7 +115,8 @@ public class MainActivity extends AppCompatActivity {
             public void onFailToLoadRewards(int errorCode) {
                 if (errorCode == GetRewardsCallback.ERROR_CODE_UNKNOWN) {
                     Log.e("MainActivity", "onFailToLoadRewards with unknown error");
-                }     if (errorCode == GetRewardsCallback.ERROR_CODE_INVALID_CLIENT_ID) {
+                }
+                if (errorCode == GetRewardsCallback.ERROR_CODE_INVALID_CLIENT_ID) {
                     Log.e("MainActivity", "onFailToLoadRewards, please check client id");
                 }
             }
