@@ -92,9 +92,15 @@ public class MainActivity extends AppCompatActivity {
         balance += total;
         getPreferences(MODE_PRIVATE).edit().putFloat(PREFERENCE_BALANCE, balance).apply();
         balanceText.setText(String.valueOf(balance));
-        Toast.makeText(MainActivity.this,
-                String.format(Locale.getDefault(), "You have received %d new rewards for a total of %.1f %s!", rewards.size(), total, rewards.get(0).currency),
-                Toast.LENGTH_LONG).show();
+        if (rewards.isEmpty()) {
+            Toast.makeText(MainActivity.this,
+                    "You have no new rewards!",
+                    Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(MainActivity.this,
+                    String.format(Locale.getDefault(), "You have received %d new rewards for a total of %.1f %s!", rewards.size(), total, rewards.get(0).currency),
+                    Toast.LENGTH_LONG).show();
+        }
     }
 
     /**
