@@ -13,7 +13,7 @@ After that you just need to add the actual SDK dependency into build.gradle of t
 ```groovy
 dependencies {  
     // other dependencies here
-    implementation 'com.github.inbrainai:sdk-android:0.1.12'  
+    implementation 'com.github.inbrainai:sdk-android:0.1.13'  
 }
 ```
 That is all! After re-syncing the project from gradle files you will be able to start using inBrain SDK.
