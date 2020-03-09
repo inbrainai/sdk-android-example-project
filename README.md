@@ -13,7 +13,7 @@ After that you just need to add the actual SDK dependency into build.gradle of t
 ```groovy
 dependencies {  
     // other dependencies here
-    implementation 'com.github.inbrainai:sdk-android:0.1.13'  
+    implementation 'com.github.inbrainai:sdk-android:0.1.16'  
 }
 ```
 That is all! After re-syncing the project from gradle files you will be able to start using inBrain SDK.
@@ -28,6 +28,10 @@ public void onCreate() {
 ```
 
 Here `CLIENT_ID` is your client ID obtained from your account manager, `CLIENT_SECRET` is your client secret obtained from your account manager. This should be done just once.
+If you have optional parameter `SESSION_UID`, you need to add it to `init` like this:
+```
+InBrain.getInstance().init(this, CLIENT_ID, CLIENT_SECRET, SESSION_UID);
+```
 
 ## Set user ID
 `InBrain.getInstance().setAppUserId(USER_ID);` where `USER_ID` is the unique identifier of the current user. This should be done when you already know how to identify the current user. Usually that happens in the main activity of the app, after sign-up/sign-in process.

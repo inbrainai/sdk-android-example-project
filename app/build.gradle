@@ -34,7 +34,7 @@ android {
 }
 
 dependencies {
-    implementation 'com.github.inbrainai:sdk-android:0.1.13'
+    implementation 'com.github.inbrainai:sdk-android:0.1.16'
 
     implementation 'com.android.support:appcompat-v7:28.0.0'
 }
