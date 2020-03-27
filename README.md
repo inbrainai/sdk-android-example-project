@@ -13,7 +13,7 @@ After that you just need to add the actual SDK dependency into build.gradle of t
 ```groovy
 dependencies {  
     // other dependencies here
-    implementation 'com.github.inbrainai:sdk-android:0.1.17'  
+    implementation 'com.github.inbrainai:sdk-android:0.1.18'  
 }
 ```
 That is all! After re-syncing the project from gradle files you will be able to start using inBrain SDK.
@@ -111,8 +111,37 @@ InBrain.getInstance().getRewards(new GetRewardsCallback() {
     }  
   
     @Override  
-    public void onFailToLoadRewards(int errorCode) {  
-        // Handle the fail
+    public void onFailToLoadRewards(Throwable t) {  
+        // Handle the fail, where t is an throwable that might help to investigate the error.
     }  
 });
+```
+
+## UI customiztion
+1. Toolbar and status bar color
+
+```java
+InBrain.getInstance().setToolbarColor(getResources().getColor(R.color.your_color));
+```
+Also you may pass color's resource id:
+```java
+InBrain.getInstance().setToolbarColorResId(R.color.your_color); 
+```
+2. Title text's & icon's color
+
+```java
+InBrain.getInstance().setTitleTextColor(getResources().getColor(R.color.your_color));
+```
+Also you may pass color's resource id:
+```java
+InBrain.getInstance().setTitleTextColorResId(R.color.your_color); 
+```
+3. Title
+
+```java
+InBrain.getInstance().setToolbarTitle(getString(R.string.app_name));
+```
+If you want to leave toolbar's text empty, just pass empty `String` to it.
+```java
+InBrain.getInstance().setToolbarTitle("");
 ```
