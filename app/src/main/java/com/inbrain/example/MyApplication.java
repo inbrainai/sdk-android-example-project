@@ -28,5 +28,20 @@ public class MyApplication extends Application {
         dataPoints.put("age", "26");
         InBrain.getInstance().setDataPoints(dataPoints);
 
+        //optional
+        applyUiCustomization();
+    }
+
+    private void applyUiCustomization() {
+        InBrain.getInstance().setToolbarTitle(getString(R.string.app_name)); // set title
+
+        boolean useResourceId = false;
+        if (useResourceId) {
+            InBrain.getInstance().setToolbarColorResId(R.color.background); // set toolbar color with status bar
+            InBrain.getInstance().setTitleTextColorResId(android.R.color.white); // set toolbar text & icon color
+        } else {
+            InBrain.getInstance().setToolbarColor(getResources().getColor(R.color.colorAccent));
+            InBrain.getInstance().setTitleTextColor(getResources().getColor(android.R.color.white));
+        }
     }
 }
