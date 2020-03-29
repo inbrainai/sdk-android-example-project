@@ -70,6 +70,11 @@ InBrainCallback callback = new InBrainCallback() {
         public void onClosed() {
         // inBrain screen is closed & user get back to your application
         }
+		
+	@Override
+        public void onClosedFromPage() {
+        // inBrain screen is closed from web page & user get back to your application
+        }
 
         // Notifies your application about new rewards.
         @Override  
@@ -147,13 +152,14 @@ InBrain.getInstance().setToolbarTitle("");
 ```
 ## Language
 By default, device's locale's language will be used. If you want to change it, you need to call
-`InBrain.getInstance().setLanguage("en-fr");`
-
-Accepted langiage format: `"en-us"`, `"en-fr"` ...
+```java
+InBrain.getInstance().setLanguage("en-fr");
+```
+Accepted language format: `"en-us"`, `"en-fr"` ...
 
 ## Staging mode
 For debugging purposes you may enable staging servers. You can make it by setting
-`InBrain.getInstance().setStagingMode(true);`
-
-right after `init()` method.
-Please don't forget to change your credentials!
+```java
+InBrain.getInstance().setStagingMode(true);
+```
+right after `init()` method. Please don't forget to change your credentials!
