@@ -13,7 +13,7 @@ After that you just need to add the actual SDK dependency into build.gradle of t
 ```groovy
 dependencies {  
     // other dependencies here
-    implementation 'com.github.inbrainai:sdk-android:0.1.18'  
+    implementation 'com.github.inbrainai:sdk-android:0.1.19'  
 }
 ```
 That is all! After re-syncing the project from gradle files you will be able to start using inBrain SDK.
@@ -145,3 +145,15 @@ If you want to leave toolbar's text empty, just pass empty `String` to it.
 ```java
 InBrain.getInstance().setToolbarTitle("");
 ```
+## Language
+By default, device's locale's language will be used. If you want to change it, you need to call
+`InBrain.getInstance().setLanguage("en-fr");`
+
+Accepted langiage format: `"en-us"`, `"en-fr"` ...
+
+## Staging mode
+For debugging purposes you may enable staging servers. You can make it by setting
+`InBrain.getInstance().setStagingMode(true);`
+
+right after `init()` method.
+Please don't forget to change your credentials!
