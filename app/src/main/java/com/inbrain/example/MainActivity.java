@@ -42,6 +42,11 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
+            public void onClosedFromPage() {
+                // inBrain screen is closed from web page & user get back to your application
+            }
+
+            @Override
             public boolean handleRewards(List<Reward> rewards) {
                 // Here you can add to user balance and update UI:
                 return false;
