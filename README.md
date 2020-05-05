@@ -13,7 +13,7 @@ After that you just need to add the actual SDK dependency into build.gradle of t
 ```groovy
 dependencies {  
     // other dependencies here
-    implementation 'com.github.inbrainai:sdk-android:0.1.20'  
+    implementation 'com.github.inbrainai:sdk-android:0.1.21'  
 }
 ```
 That is all! After re-syncing the project from gradle files you will be able to start using inBrain SDK.
@@ -163,3 +163,9 @@ For debugging purposes you may enable staging servers. You can make it by settin
 InBrain.getInstance().setStagingMode(true);
 ```
 right after `init()` method. Please don't forget to change your credentials!
+
+## Getting device id
+In order to add your device for test, you need to obtain it's id. You can do it by calling after `init()` method
+```java
+String deviceId = InBrain.getInstance().getDeviceId();
+```
