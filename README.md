@@ -157,13 +157,6 @@ InBrain.getInstance().setLanguage("en-fr");
 ```
 Accepted language format: `"en-us"`, `"en-fr"` ...
 
-## Staging mode
-For debugging purposes you may enable staging servers. You can make it by setting
-```java
-InBrain.getInstance().setStagingMode(true);
-```
-right after `init()` method. Please don't forget to change your credentials!
-
 ## Getting device id
 In order to add your device for test, you need to obtain it's id. You can do it by calling after `init()` method
 ```java
