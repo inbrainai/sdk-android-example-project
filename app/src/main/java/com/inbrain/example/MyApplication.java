@@ -17,24 +17,22 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         InBrain.getInstance().init(this, CLIENT_ID, CLIENT_SECRET);
-        // optional for debug
-        //InBrain.getInstance().setStagingMode(true);
 
         //optional
-        String sessionUid = "1f3682fc73aa";
-        InBrain.getInstance().setSessionUid(sessionUid);
+//        String sessionUid = "1f3682fc73aa";
+//        InBrain.getInstance().setSessionUid(sessionUid);
 
         //optional
-        HashMap<String, String> dataPoints = new HashMap<>();
-        dataPoints.put("gender", "female");
-        dataPoints.put("age", "26");
-        InBrain.getInstance().setDataPoints(dataPoints);
+//        HashMap<String, String> dataPoints = new HashMap<>();
+//        dataPoints.put("gender", "female");
+//        dataPoints.put("age", "26");
+//        InBrain.getInstance().setDataPoints(dataPoints);
 
         //optional
         applyUiCustomization();
 
         //optional
-        InBrain.getInstance().setLanguage("en-fr");
+//        InBrain.getInstance().setLanguage("en-fr");
     }
 
     private void applyUiCustomization() {

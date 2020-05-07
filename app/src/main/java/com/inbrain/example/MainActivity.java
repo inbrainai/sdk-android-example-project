@@ -53,6 +53,9 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         InBrain.getInstance().addCallback(callback);
+        // optional for obtaining device id for testing
+//        String deviceId = InBrain.getInstance().getDeviceId();
+//        Log.d("MainActivity", "deviceId:" + deviceId);
     }
 
     @Override
