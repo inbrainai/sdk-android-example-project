@@ -32,7 +32,7 @@ public class MyApplication extends Application {
         applyUiCustomization();
 
         //optional
-//        InBrain.getInstance().setLanguage("en-fr");
+//        InBrain.getInstance().setLanguage("en-us");
     }
 
     private void applyUiCustomization() {

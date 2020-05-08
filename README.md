@@ -153,9 +153,9 @@ InBrain.getInstance().setToolbarTitle("");
 ## Language
 By default, device's locale's language will be used. If you want to change it, you need to call
 ```java
-InBrain.getInstance().setLanguage("en-fr");
+InBrain.getInstance().setLanguage("en-us");
 ```
-Accepted language format: `"en-us"`, `"en-fr"` ...
+Accepted languages: `"en-us"`, `"fr-fr"`, `"en-gb"`, `"en-ca"`, `"en-au"`, `"en-in"`
 
 ## Getting device id
 In order to add your device for test, you need to obtain it's id. You can do it by calling after `init()` method
