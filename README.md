@@ -13,7 +13,7 @@ After that you just need to add the actual SDK dependency into build.gradle of t
 ```groovy
 dependencies {  
     // other dependencies here
-    implementation 'com.github.inbrainai:sdk-android:0.1.23'  
+    implementation 'com.github.inbrainai:sdk-android:0.1.24'  
 }
 ```
 That is all! After re-syncing the project from gradle files you will be able to start using inBrain SDK.
@@ -62,7 +62,7 @@ InBrain.getInstance().showSurveys(activity, new StartSurveysCallback() {
 This will open the survey wall in new activity. inBrain SDK will handle everything else. It will return control to last opened activity of your app after user leaves the survey wall.
 
 ## InBrainCallback
-The callback here is a reward handling callback which is purely optional. You can add it using `addCallback` method. It can be done in `onResume` method of an activity. It is not necessary to add a callback to handle rewards, you can just get rewards manually whenever you need throughout the app using `getRewards` method (see below). However if you want a single point where you could add virtual currency to user balance and update UI, `addCallback` is your choice.
+The callback here is a sdk events callback which is purely optional. You can add it using `addCallback` method. It can be done in `onResume` method of an activity.
 
 ```
 InBrainCallback callback = new InBrainCallback() {
@@ -75,21 +75,8 @@ InBrainCallback callback = new InBrainCallback() {
         public void onClosedFromPage() {
         // inBrain screen is closed from web page & user get back to your application
         }
-
-        // Notifies your application about new rewards.
-        @Override  
-        public boolean handleRewards(List<Reward> rewards) {
-            // Process received rewards here
-            return true; // if processed successfully, false otherwise
-        }  
     };
 ```
-Received rewards will be passed to `handleRewards(List<Reward> rewards)` method of the callback. Rewards that have been processed need to be confirmed with inBrain so it would not pass it back to the app repeatedly. You have two options to confirm rewards:
-
- * Simple synchronous method: just `return true` from `handleRewards` in the callback. This will confirm rewards instantly.
- * Advanced asynchronous method: `return false` from `handleRewards` method. Later, after you have processed the rewards, make a call to `confirmRewards` method. The call will look like this: `InBrain.getInstance().confirmRewards(list)`, where `list` is the list of rewards you want to confirm. All unconfirmed rewards will be passed again to `handleRewards` on subsequent calls.
- 
- **If you use advanced method, make sure to confirm received rewards to avoid duplicate rewards!**
 
 `onClosed` method is called when InBrain screen is closed & user returns back to your app.
 
@@ -99,6 +86,33 @@ In order to unsubscribe from inBrain events, you need to call `InBrain.getInstan
     @Override
     protected void onPause() {
         InBrain.getInstance().removeCallback(callback); // unsubscribe from events
+        super.onPause();
+    }
+```
+
+ **Don't forget to remove callback, otherwise it may call memory leak!**
+ 
+## NewRewardsCallback
+The callback here is a reward handling callback which is purely optional. You can add it using `addNewRewardsCallback` method. It can be done in `onResume` method of an activity. It is not necessary to add a callback to handle rewards, you can just get rewards manually whenever you need throughout the app using `getRewards` method (see below). However if you want a single point where you could add virtual currency to user balance and update UI, `addNewRewardsCallback` is your choice. Pay attention, this method can be called during SDK usage while your activity is in 'onStop' state.
+
+```
+NewRewardsCallback newRewardsCallback = new NewRewardsCallback() {
+    @Override
+    public boolean handleRewards(List<Reward> rewards) {
+        processRewards(rewards);
+        return true;
+    }
+};
+```
+
+[Rewards handling](https://github.com/inbrainai/sdk-android-example-project#handling-rewards)
+
+In order to unsubscribe from new rewards, you need to call `InBrain.getInstance().removeNewRewardsCallback(newRewardsCallback)`. If you added a callback in `onResume`, you should remove you callback in `onPause` method of an activity like this:
+
+```
+    @Override
+    protected void onPause() {
+        InBrain.getInstance().removeNewRewardsCallback(newRewardsCallback); // unsubscribe from new rewards
         super.onPause();
     }
 ```
@@ -121,6 +135,16 @@ InBrain.getInstance().getRewards(new GetRewardsCallback() {
     }  
 });
 ```
+
+For handling rewards see section below.
+
+## Handling rewards
+Received rewards will be passed to `handleRewards(List<Reward> rewards)` method of the callback. Rewards that have been processed need to be confirmed with inBrain so it would not pass it back to the app repeatedly. You have two options to confirm rewards:
+
+ * Simple synchronous method: just `return true` from `handleRewards` in the callback. This will confirm rewards instantly.
+ * Advanced asynchronous method: `return false` from `handleRewards` method. Later, after you have processed the rewards, make a call to `confirmRewards` method. The call will look like this: `InBrain.getInstance().confirmRewards(list)`, where `list` is the list of rewards you want to confirm. All unconfirmed rewards will be passed again to `handleRewards` on subsequent calls.
+ 
+ **If you use advanced method, make sure to confirm received rewards to avoid duplicate rewards!**
 
 ## UI customiztion
 1. Toolbar and status bar color
