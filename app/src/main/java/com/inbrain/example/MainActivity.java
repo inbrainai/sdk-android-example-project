@@ -10,7 +10,6 @@ import android.widget.Toast;
 import com.inbrain.sdk.InBrain;
 import com.inbrain.sdk.callback.GetRewardsCallback;
 import com.inbrain.sdk.callback.InBrainCallback;
-import com.inbrain.sdk.callback.NewRewardsCallback;
 import com.inbrain.sdk.callback.StartSurveysCallback;
 import com.inbrain.sdk.model.Reward;
 
@@ -25,22 +24,21 @@ public class MainActivity extends AppCompatActivity {
     private TextView balanceText;
     private InBrainCallback callback = new InBrainCallback() {
         @Override
-        public void onClosed() {
+        public void surveysClosed() {
             // inBrain screen is closed & user get back to your application
         }
 
         @Override
-        public void onClosedFromPage() {
+        public void surveysClosedFromPage() {
             // inBrain screen is closed from web page & user get back to your application
         }
-    };
-    private NewRewardsCallback newRewardsCallback = new NewRewardsCallback() {
+
         @Override
-        public boolean handleRewards(List<Reward> rewards) {
+        public boolean didReceiveInBrainRewards(List<Reward> rewards) {
             // pay attention, this method can be called during SDK usage while your activity is in 'onStop' state
             Log.d("MainActivity", "Received rewards in new rewards callback:" + Arrays.toString(rewards.toArray()));
-            processRewards(rewards);
-            return true;
+            return true; // in case true rewards will be confirmed automatically
+            // in case return false you need to confirm it manually using confirmRewards method
         }
     };
 
@@ -54,10 +52,8 @@ public class MainActivity extends AppCompatActivity {
         balanceText = findViewById(R.id.balanceTv);
         balanceText.setText(String.valueOf(balance));
 
-        InBrain.getInstance().setAppUserId("1234-1234-1234-1234"); // Custom app user id goes here!
-
-        InBrain.getInstance().addCallback(callback); // subscribe to events
-        InBrain.getInstance().addNewRewardsCallback(newRewardsCallback); // subscribe to new rewards
+        InBrain.getInstance().setUserID("1234-1234-1234-1234"); // Custom app user id goes here!
+        InBrain.getInstance().addCallback(callback); // subscribe to events and new rewards
 
         // optional for obtaining device id for testing
 //        String deviceId = InBrain.getInstance().getDeviceId();
@@ -72,8 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        InBrain.getInstance().removeCallback(callback); // unsubscribe from events
-        InBrain.getInstance().removeNewRewardsCallback(newRewardsCallback); // unsubscribe from rewards update
+        InBrain.getInstance().removeCallback(callback); // unsubscribe from events & rewards update
         super.onDestroy();
     }
 
@@ -129,7 +124,8 @@ public class MainActivity extends AppCompatActivity {
             public boolean handleRewards(List<Reward> rewards) {
                 Log.d("MainActivity", "Received rewards:" + Arrays.toString(rewards.toArray()));
                 processRewards(rewards);
-                return true; // rewards are always handled successfully
+                return true; // in case true rewards will be confirmed automatically
+                // in case return false you need to confirm it manually using confirmRewards method
             }
 
             @Override

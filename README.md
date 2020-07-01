@@ -13,7 +13,7 @@ After that you just need to add the actual SDK dependency into build.gradle of t
 ```groovy
 dependencies {  
     // other dependencies here
-    implementation 'com.github.inbrainai:sdk-android:0.1.25'  
+    implementation 'com.github.inbrainai:sdk-android:1.0.1'  
 }
 ```
 That is all! After re-syncing the project from gradle files you will be able to start using inBrain SDK.
@@ -23,25 +23,25 @@ First of all you need to initialize the SDK using the following code in the Appl
 ```
 public void onCreate() {
     super.onCreate();
-    InBrain.getInstance().init(this, CLIENT_ID, CLIENT_SECRET);
+    InBrain.getInstance().init(this, API_CLIENT_ID, API_SECRET);
 }
 ```
 
-Here `CLIENT_ID` is your client ID obtained from your account manager, `CLIENT_SECRET` is your client secret obtained from your account manager. This should be done just once.
+Here `API_CLIENT_ID` is your client ID obtained from your account manager, `API_SECRET` is your client secret obtained from your account manager. This should be done just once.
 
-If you have optional parameter `SESSION_UID`, you can set it using `setSessionUid` method:
+If you have optional parameter `SESSION_ID`, you can set it using `setSessionID` method:
 ```
-InBrain.getInstance().setSessionUid(SESSION_UID);
+InBrain.getInstance().setSessionID(SESSION_ID);
 ```
 
-If you have optional data points, you can set it using `setDataPoints` method:
+If you have optional data options, you can set it using `setDataOptions` method:
 ```
-InBrain.getInstance().setDataPoints(DATA_POINTS);
+InBrain.getInstance().setDataOptions(DATA_OPTIONS);
 ```
-Where `DATA_POINTS` is `HashMap<String, String>` field. Please check sample for more info.
+Where `DATA_OPTIONS` is `HashMap<String, String>` field. Please check sample for more info.
 
 ## Set user ID
-`InBrain.getInstance().setAppUserId(USER_ID);` where `USER_ID` is the unique identifier of the current user. This should be done when you already know how to identify the current user. Usually that happens in the main activity of the app, after sign-up/sign-in process.
+`InBrain.getInstance().setUserID(USER_ID);` where `USER_ID` is the unique identifier of the current user. This should be done when you already know how to identify the current user. Usually that happens in the main activity of the app, after sign-up/sign-in process.
 
 ## Presenting the survey wall
 Minimum supported system WebView version for surveys is `51.0.2704.90`, it is default for Android 7.0, however older devices may have system update which updates WebView.
@@ -62,58 +62,44 @@ InBrain.getInstance().showSurveys(activity, new StartSurveysCallback() {
 This will open the survey wall in new activity. inBrain SDK will handle everything else. It will return control to last opened activity of your app after user leaves the survey wall.
 
 ## InBrainCallback
-The callback here is a sdk events callback which is purely optional. You can add it using `addCallback` method. It can be done in `onResume` method of an activity.
+The callback here is a sdk events & reward handling callback which is purely optional. You can add it using `addCallback` method. It can be done in `onCreate` method of an activity.
 
 ```
 InBrainCallback callback = new InBrainCallback() {
         @Override
-        public void onClosed() {
+        public void surveysClosed() {
         // inBrain screen is closed & user get back to your application
         }
 		
 	@Override
-        public void onClosedFromPage() {
+        public void surveysClosedFromPage() {
         // inBrain screen is closed from web page & user get back to your application
         }
+
+        // Notifies your application about new rewards.
+        @Override  
+        public boolean didReceiveInBrainRewards(List<Reward> rewards) {
+            // Process received rewards here
+            return true; // if processed successfully, false otherwise
+        }  
     };
 ```
+Received rewards will be passed to `didReceiveInBrainRewards(List<Reward> rewards)` method of the callback. Rewards that have been processed need to be confirmed with inBrain so it would not pass it back to the app repeatedly. You have two options to confirm rewards:
 
-`onClosed` method is called when InBrain screen is closed & user returns back to your app.
-
-In order to unsubscribe from inBrain events, you need to call `InBrain.getInstance().removeCallback(callback)`. If you added a callback in `onResume`, you should remove you callback in `onPause` method of an activity like this:
-
-```
-    @Override
-    protected void onPause() {
-        InBrain.getInstance().removeCallback(callback); // unsubscribe from events
-        super.onPause();
-    }
-```
-
- **Don't forget to remove callback, otherwise it may call memory leak!**
+ * Simple synchronous method: just `return true` from `didReceiveInBrainRewards` in the callback. This will confirm rewards instantly.
+ * Advanced asynchronous method: `return false` from `didReceiveInBrainRewards` method. Later, after you have processed the rewards, make a call to `confirmRewards` method. The call will look like this: `InBrain.getInstance().confirmRewards(list)`, where `list` is the list of rewards you want to confirm. All unconfirmed rewards will be passed again to `didReceiveInBrainRewards` on subsequent calls.
  
-## NewRewardsCallback
-The callback here is a reward handling callback which is purely optional. You can add it using `addNewRewardsCallback` method. It can be done in `onResume` method of an activity. It is not necessary to add a callback to handle rewards, you can just get rewards manually whenever you need throughout the app using `getRewards` method (see below). However if you want a single point where you could add virtual currency to user balance and update UI, `addNewRewardsCallback` is your choice. Pay attention, this method can be called during SDK usage while your activity is in 'onStop' state.
+ **If you use advanced method, make sure to confirm received rewards to avoid duplicate rewards!**
 
-```
-NewRewardsCallback newRewardsCallback = new NewRewardsCallback() {
-    @Override
-    public boolean handleRewards(List<Reward> rewards) {
-        processRewards(rewards);
-        return true;
-    }
-};
-```
+`surveysClosed` method is called when InBrain screen is closed & user returns back to your app.
 
-[Rewards handling](https://github.com/inbrainai/sdk-android-example-project#handling-rewards)
-
-In order to unsubscribe from new rewards, you need to call `InBrain.getInstance().removeNewRewardsCallback(newRewardsCallback)`. If you added a callback in `onResume`, you should remove you callback in `onPause` method of an activity like this:
+In order to unsubscribe from inBrain events, you need to call `InBrain.getInstance().removeCallback(callback)`. If you added a callback in `onCreate`, you should remove you callback in `onDestroy` method of an activity like this:
 
 ```
     @Override
-    protected void onPause() {
-        InBrain.getInstance().removeNewRewardsCallback(newRewardsCallback); // unsubscribe from new rewards
-        super.onPause();
+    protected void onDestroy() {
+        InBrain.getInstance().removeCallback(callback); // unsubscribe from events
+        super.onDestroy();
     }
 ```
 
@@ -135,16 +121,6 @@ InBrain.getInstance().getRewards(new GetRewardsCallback() {
     }  
 });
 ```
-
-For handling rewards see section below.
-
-## Handling rewards
-Received rewards will be passed to `handleRewards(List<Reward> rewards)` method of the callback. Rewards that have been processed need to be confirmed with inBrain so it would not pass it back to the app repeatedly. You have two options to confirm rewards:
-
- * Simple synchronous method: just `return true` from `handleRewards` in the callback. This will confirm rewards instantly.
- * Advanced asynchronous method: `return false` from `handleRewards` method. Later, after you have processed the rewards, make a call to `confirmRewards` method. The call will look like this: `InBrain.getInstance().confirmRewards(list)`, where `list` is the list of rewards you want to confirm. All unconfirmed rewards will be passed again to `handleRewards` on subsequent calls.
- 
- **If you use advanced method, make sure to confirm received rewards to avoid duplicate rewards!**
 
 ## UI customiztion
 1. Toolbar and status bar color
