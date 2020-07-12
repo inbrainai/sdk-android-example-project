@@ -4,8 +4,6 @@ import android.app.Application;
 
 import com.inbrain.sdk.InBrain;
 
-import java.util.HashMap;
-
 /**
  * Created by Alex Kravchenko on 28/07/2019.
  */
@@ -16,17 +14,15 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        InBrain.getInstance().init(this, API_CLIENT_ID, API_SECRET);
+        boolean isS2S = false;
+        InBrain.getInstance().setInBrain(this, API_CLIENT_ID, API_SECRET, isS2S);
 
         //optional
 //        String sessionID = "1f3682fc73aa";
-//        InBrain.getInstance().setSessionID(sessionID);
-
-        //optional
 //        HashMap<String, String> dataOptions = new HashMap<>();
 //        dataOptions.put("gender", "female");
 //        dataOptions.put("age", "26");
-//        InBrain.getInstance().setDataOptions(dataOptions);
+//        InBrain.getInstance().setInBrainValuesFor(sessionID, dataOptions);
 
         //optional
         applyUiCustomization();

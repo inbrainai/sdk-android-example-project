@@ -13,7 +13,7 @@ After that you just need to add the actual SDK dependency into build.gradle of t
 ```groovy
 dependencies {  
     // other dependencies here
-    implementation 'com.github.inbrainai:sdk-android:1.0.1'  
+    implementation 'com.github.inbrainai:sdk-android:1.0.2'  
 }
 ```
 That is all! After re-syncing the project from gradle files you will be able to start using inBrain SDK.
@@ -23,21 +23,19 @@ First of all you need to initialize the SDK using the following code in the Appl
 ```
 public void onCreate() {
     super.onCreate();
-    InBrain.getInstance().init(this, API_CLIENT_ID, API_SECRET);
+    boolean isS2S = false;
+    InBrain.getInstance().setInBrain(this, API_CLIENT_ID, API_SECRET, isS2S);
 }
 ```
 
 Here `API_CLIENT_ID` is your client ID obtained from your account manager, `API_SECRET` is your client secret obtained from your account manager. This should be done just once.
+Based on your app's architecture, whether the rewards will be delivered via in-app callback or Server-to-Server (S2S)callback. This can be configured using `isS2S` flag.
 
-If you have optional parameter `SESSION_ID`, you can set it using `setSessionID` method:
+If you have optional parameter `SESSION_ID` & `DATA_OPTIONS`, you can set it using `setInBrainValuesFor` method:
 ```
-InBrain.getInstance().setSessionID(SESSION_ID);
+InBrain.getInstance().setInBrainValuesFor(SESSION_ID, DATA_OPTIONS);
 ```
 
-If you have optional data options, you can set it using `setDataOptions` method:
-```
-InBrain.getInstance().setDataOptions(DATA_OPTIONS);
-```
 Where `DATA_OPTIONS` is `HashMap<String, String>` field. Please check sample for more info.
 
 ## Set user ID
