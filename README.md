@@ -13,24 +13,26 @@ After that you just need to add the actual SDK dependency into build.gradle of t
 ```groovy
 dependencies {  
     // other dependencies here
-    implementation 'com.github.inbrainai:sdk-android:1.0.2'  
+    implementation 'com.github.inbrainai:sdk-android:1.0.3'  
 }
 ```
 That is all! After re-syncing the project from gradle files you will be able to start using inBrain SDK.
 
 ## Configure inBrain SDK
-First of all you need to initialize the SDK using the following code in the Application class:
+First of all you need to initialize the SDK using the following code in the Activity class:
 ```
-public void onCreate() {
-    super.onCreate();
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
     boolean isS2S = false;
-    InBrain.getInstance().setInBrain(this, API_CLIENT_ID, API_SECRET, isS2S);
+    InBrain.getInstance().setInBrain(this, API_CLIENT_ID, API_SECRET, isS2S, USER_ID);
 }
 ```
 
 Here `API_CLIENT_ID` is your client ID obtained from your account manager, `API_SECRET` is your client secret obtained from your account manager. This should be done just once.
 Based on your app's architecture, whether the rewards will be delivered via in-app callback or Server-to-Server (S2S)callback. This can be configured using `isS2S` flag.
-
+`USER_ID` is the unique identifier of the current user. This should be done when you already know how to identify the current user. Usually that happens in the main activity of the app, after sign-up/sign-in process.
+ 
 If you have optional parameter `SESSION_ID` & `DATA_OPTIONS`, you can set it using `setInBrainValuesFor` method:
 ```
 InBrain.getInstance().setInBrainValuesFor(SESSION_ID, DATA_OPTIONS);
@@ -38,8 +40,6 @@ InBrain.getInstance().setInBrainValuesFor(SESSION_ID, DATA_OPTIONS);
 
 Where `DATA_OPTIONS` is `HashMap<String, String>` field. Please check sample for more info.
 
-## Set user ID
-`InBrain.getInstance().setUserID(USER_ID);` where `USER_ID` is the unique identifier of the current user. This should be done when you already know how to identify the current user. Usually that happens in the main activity of the app, after sign-up/sign-in process.
 
 ## Presenting the survey wall
 Minimum supported system WebView version for surveys is `51.0.2704.90`, it is default for Android 7.0, however older devices may have system update which updates WebView.
