@@ -10,7 +10,6 @@ import android.widget.Toast;
 import com.inbrain.sdk.InBrain;
 import com.inbrain.sdk.callback.GetRewardsCallback;
 import com.inbrain.sdk.callback.InBrainCallback;
-import com.inbrain.sdk.callback.NewRewardsCallback;
 import com.inbrain.sdk.callback.StartSurveysCallback;
 import com.inbrain.sdk.model.Reward;
 
@@ -20,27 +19,28 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     private static final String PREFERENCE_BALANCE = "Balance";
+    private static final String API_CLIENT_ID = "9c367c28-c8a4-498d-bf22-1f3682fc73aa"; // your client id obtained by your account manager
+    private static final String API_SECRET = "90MB8WyMZyYykgs0TaR21SqCcCZz3YTTXio9FoN5o5NJ6+svp3Q2tO8pvM9CjbskCaLAog0msmVTcIigKPQw4A=="; // your client secret obtained by your account manager
 
     private float balance;
     private TextView balanceText;
     private InBrainCallback callback = new InBrainCallback() {
         @Override
-        public void onClosed() {
+        public void surveysClosed() {
             // inBrain screen is closed & user get back to your application
         }
 
         @Override
-        public void onClosedFromPage() {
+        public void surveysClosedFromPage() {
             // inBrain screen is closed from web page & user get back to your application
         }
-    };
-    private NewRewardsCallback newRewardsCallback = new NewRewardsCallback() {
+
         @Override
-        public boolean handleRewards(List<Reward> rewards) {
+        public boolean didReceiveInBrainRewards(List<Reward> rewards) {
             // pay attention, this method can be called during SDK usage while your activity is in 'onStop' state
             Log.d("MainActivity", "Received rewards in new rewards callback:" + Arrays.toString(rewards.toArray()));
-            processRewards(rewards);
-            return true;
+            return true; // in case true rewards will be confirmed automatically
+            // in case return false you need to confirm it manually using confirmRewards method
         }
     };
 
@@ -53,15 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
         balanceText = findViewById(R.id.balanceTv);
         balanceText.setText(String.valueOf(balance));
-
-        InBrain.getInstance().setAppUserId("1234-1234-1234-1234"); // Custom app user id goes here!
-
-        InBrain.getInstance().addCallback(callback); // subscribe to events
-        InBrain.getInstance().addNewRewardsCallback(newRewardsCallback); // subscribe to new rewards
-
-        // optional for obtaining device id for testing
-//        String deviceId = InBrain.getInstance().getDeviceId();
-//        Log.d("MainActivity", "deviceId:" + deviceId);
+        initInBrain();
     }
 
     @Override
@@ -72,9 +64,45 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        InBrain.getInstance().removeCallback(callback); // unsubscribe from events
-        InBrain.getInstance().removeNewRewardsCallback(newRewardsCallback); // unsubscribe from rewards update
+        InBrain.getInstance().removeCallback(callback); // unsubscribe from events & rewards update
         super.onDestroy();
+    }
+
+    private void initInBrain() {
+        boolean isS2S = false;
+        String userID = "1234-1234-1234-1234"; // Custom app user id goes here!
+        InBrain.getInstance().setInBrain(this, API_CLIENT_ID, API_SECRET, isS2S, userID);
+        InBrain.getInstance().addCallback(callback); // subscribe to events and new rewards
+
+        //optional
+//        String sessionID = "1f3682fc73aa";
+//        HashMap<String, String> dataOptions = new HashMap<>();
+//        dataOptions.put("gender", "female");
+//        dataOptions.put("age", "26");
+//        InBrain.getInstance().setInBrainValuesFor(sessionID, dataOptions);
+
+        //optional
+        applyUiCustomization();
+
+        //optional
+//        InBrain.getInstance().setLanguage("en-us");
+
+        // optional for obtaining device id for testing
+//        String deviceId = InBrain.getInstance().getDeviceId();
+//        Log.d("MainActivity", "deviceId:" + deviceId);
+    }
+
+    private void applyUiCustomization() {
+        InBrain.getInstance().setToolbarTitle(getString(R.string.app_name)); // set title
+
+        boolean useResourceId = false;
+        if (useResourceId) {
+            InBrain.getInstance().setToolbarColorResId(R.color.background); // set toolbar color with status bar
+            InBrain.getInstance().setTitleTextColorResId(android.R.color.white); // set toolbar text & icon color
+        } else {
+            InBrain.getInstance().setToolbarColor(getResources().getColor(R.color.colorAccent));
+            InBrain.getInstance().setTitleTextColor(getResources().getColor(android.R.color.white));
+        }
     }
 
     public void showSurveys(View view) {
@@ -129,7 +157,8 @@ public class MainActivity extends AppCompatActivity {
             public boolean handleRewards(List<Reward> rewards) {
                 Log.d("MainActivity", "Received rewards:" + Arrays.toString(rewards.toArray()));
                 processRewards(rewards);
-                return true; // rewards are always handled successfully
+                return true; // in case true rewards will be confirmed automatically
+                // in case return false you need to confirm it manually using confirmRewards method
             }
 
             @Override
