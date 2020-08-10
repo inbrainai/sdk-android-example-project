@@ -19,8 +19,8 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     private static final String PREFERENCE_BALANCE = "Balance";
-    private static final String API_CLIENT_ID = "9c367c28-c8a4-498d-bf22-1f3682fc73aa"; // your client id obtained by your account manager
-    private static final String API_SECRET = "90MB8WyMZyYykgs0TaR21SqCcCZz3YTTXio9FoN5o5NJ6+svp3Q2tO8pvM9CjbskCaLAog0msmVTcIigKPQw4A=="; // your client secret obtained by your account manager
+    private static final String API_CLIENT_ID = "{clientIDhere}"; // your client id obtained by your account manager
+    private static final String API_SECRET = "{clientSecrethere}"; // your client secret obtained by your account manager
 
     private float balance;
     private TextView balanceText;
