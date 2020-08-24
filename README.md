@@ -101,7 +101,7 @@ In order to unsubscribe from inBrain events, you need to call `InBrain.getInstan
     }
 ```
 
- **Don't forget to remove callback, otherwise it may call memory leak!**
+ **Don't forget to remove callback, otherwise it may cause a memory leak!**
 
 ## Request rewards manually
 If you want to force check for new rewards at a certain time, there is a special method which invokes manual rewards check:
