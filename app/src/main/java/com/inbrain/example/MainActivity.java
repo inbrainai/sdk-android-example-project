@@ -11,6 +11,7 @@ import com.inbrain.sdk.InBrain;
 import com.inbrain.sdk.callback.GetRewardsCallback;
 import com.inbrain.sdk.callback.InBrainCallback;
 import com.inbrain.sdk.callback.StartSurveysCallback;
+import com.inbrain.sdk.callback.SurveysAvailableCallback;
 import com.inbrain.sdk.model.Reward;
 
 import java.util.Arrays;
@@ -90,6 +91,13 @@ public class MainActivity extends AppCompatActivity {
         // optional for obtaining device id for testing
 //        String deviceId = InBrain.getInstance().getDeviceId();
 //        Log.d("MainActivity", "deviceId:" + deviceId);
+
+        InBrain.getInstance().areSurveysAvailable(this, new SurveysAvailableCallback() {
+            @Override
+            public void onSurveysAvailable(final boolean available) {
+                Log.d("MainActivity", "Surveys available:" + available);
+            }
+        });
     }
 
     private void applyUiCustomization() {

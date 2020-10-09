@@ -13,7 +13,7 @@ After that you just need to add the actual SDK dependency into build.gradle of t
 ```groovy
 dependencies {  
     // other dependencies here
-    implementation 'com.github.inbrainai:sdk-android:1.0.5'  
+    implementation 'com.github.inbrainai:sdk-android:1.0.6'  
 }
 ```
 That is all! After re-syncing the project from gradle files you will be able to start using inBrain SDK.
@@ -159,4 +159,15 @@ Accepted languages: `"en-us"`, `"fr-fr"`, `"en-gb"`, `"en-ca"`, `"en-au"`, `"en-
 In order to add your device for test, you need to obtain it's id. You can do it by calling after `init()` method
 ```java
 String deviceId = InBrain.getInstance().getDeviceId();
+```
+
+## Check for surveys availability
+You can check if surveys are available for user. You can do it by calling after `init()` method
+```java
+InBrain.getInstance().areSurveysAvailable(this, new SurveysAvailableCallback() {
+	@Override
+	public void onSurveysAvailable(final boolean available) {
+		Log.d("MainActivity", "Surveys available:" + available);
+	}
+});
 ```
