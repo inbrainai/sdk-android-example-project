@@ -13,7 +13,7 @@ After that you just need to add the actual SDK dependency into build.gradle of t
 ```groovy
 dependencies {  
     // other dependencies here
-    implementation 'com.github.inbrainai:sdk-android:1.0.6'  
+    implementation 'com.github.inbrainai:sdk-android:1.0.7'  
 }
 ```
 That is all! After re-syncing the project from gradle files you will be able to start using inBrain SDK.
@@ -30,8 +30,8 @@ protected void onCreate(Bundle savedInstanceState) {
 ```
 
 Here `API_CLIENT_ID` is your client ID obtained from your account manager, `API_SECRET` is your client secret obtained from your account manager. This should be done just once.
-Based on your app's architecture, whether the rewards will be delivered via in-app callback or Server-to-Server (S2S)callback. This can be configured using `isS2S` flag.
-`USER_ID` is the unique identifier of the current user. This should be done when you already know how to identify the current user. Usually that happens in the main activity of the app, after sign-up/sign-in process.
+Based on your app's architecture, whether the rewards will be delivered via in-app callback or Server-to-Server (S2S) callback. This can be configured using `isS2S` flag.
+`USER_ID` is the unique identifier of the current user.
  
 If you have optional parameter `SESSION_ID` & `DATA_OPTIONS`, you can set it using `setInBrainValuesFor` method:
 ```
