@@ -13,7 +13,7 @@ After that you just need to add the actual SDK dependency into build.gradle of t
 ```groovy
 dependencies {  
     // other dependencies here
-    implementation 'com.github.inbrainai:sdk-android:1.0.8'  
+    implementation 'com.github.inbrainai:sdk-android:1.0.9'  
 }
 ```
 That is all! After re-syncing the project from gradle files you will be able to start using inBrain SDK.
@@ -40,8 +40,9 @@ InBrain.getInstance().setInBrainValuesFor(SESSION_ID, DATA_OPTIONS);
 
 Where `DATA_OPTIONS` is `HashMap<String, String>` field. Please check sample for more info.
 
+# Usage
 
-## Presenting the survey wall
+## Presenting the Regular surveys
 Minimum supported system WebView version for surveys is `51.0.2704.90`, it is default for Android 7.0, however older devices may have system update which updates WebView.
 In order to open inBrain survey wall, execute the following call:
 ```
@@ -58,6 +59,15 @@ InBrain.getInstance().showSurveys(activity, new StartSurveysCallback() {
 });
 ```
 This will open the survey wall in new activity. inBrain SDK will handle everything else. It will return control to last opened activity of your app after user leaves the survey wall.
+
+## Native surveys
+
+There a few steps to use InBrain Native Surveys:
+1) Fetch Native Surveys using **InBrain.getInstance().getNativeSurveys()** function;
+2) Receive Native Surveys using **nativeSurveysReceived(List<Survey> surveyList)** function of `GetNativeSurveysCallback` and show them to the user;
+3) Once user choosed some survey - present InBrain WebView using **InBrain.getInstance().showNativeSurveyWith(context, surveyId, new StartSurveysCallback())** function.
+
+**Please, note:** SDK provides new portion of Native Surveys after user completed some of Native Surveys, received before.
 
 ## InBrainCallback
 The callback here is a sdk events & reward handling callback which is purely optional. You can add it using `addCallback` method. It can be done in `onCreate` method of an activity.
