@@ -2,17 +2,21 @@ package com.inbrain.example;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.inbrain.sdk.InBrain;
+import com.inbrain.sdk.callback.GetNativeSurveysCallback;
 import com.inbrain.sdk.callback.GetRewardsCallback;
 import com.inbrain.sdk.callback.InBrainCallback;
 import com.inbrain.sdk.callback.StartSurveysCallback;
 import com.inbrain.sdk.callback.SurveysAvailableCallback;
 import com.inbrain.sdk.model.Reward;
+import com.inbrain.sdk.model.Survey;
 
 import java.util.Arrays;
 import java.util.List;
@@ -44,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
             // in case return false you need to confirm it manually using confirmRewards method
         }
     };
+    private List<Survey> nativeSurveys;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +66,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         getRewards();
+        // request native surveys after user comes back from inbrain, it may be updated
+        InBrain.getInstance().getNativeSurveys(new GetNativeSurveysCallback() {
+            @Override
+            public void nativeSurveysReceived(List<Survey> surveyList) {
+                nativeSurveys = surveyList;
+                Log.d("MainActivity", "Native surveys available count:" + surveyList.size());
+            }
+        });
     }
 
     @Override
@@ -71,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initInBrain() {
         boolean isS2S = false;
-        String userID = "1234-1234-1234-1234"; // Custom app user id goes here!
+        String userID = "{userIDhere}"; // Custom app user id goes here!
         InBrain.getInstance().setInBrain(this, API_CLIENT_ID, API_SECRET, isS2S, userID);
         InBrain.getInstance().addCallback(callback); // subscribe to events and new rewards
 
@@ -115,6 +128,45 @@ public class MainActivity extends AppCompatActivity {
 
     public void showSurveys(View view) {
         InBrain.getInstance().showSurveys(this, new StartSurveysCallback() {
+            @Override
+            public void onSuccess() {
+                Log.d("MainActivity", "Successfully started InBrain");
+            }
+
+            @Override
+            public void onFail(String message) {
+                Log.e("MainActivity", "Failed to start inBrain:" + message);
+                Toast.makeText(MainActivity.this, // show some message or dialog to user
+                        "Sorry, InBrain isn't supported on your device",
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void showNativeSurveys(View view) {
+        if (nativeSurveys == null || nativeSurveys.isEmpty()) {
+            Toast.makeText(MainActivity.this,
+                    "Sorry, no native surveys",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
+        findViewById(R.id.show_native_surveys_button).setVisibility(View.GONE);
+        RecyclerView recyclerView = findViewById(R.id.native_surveys_recycler_view);
+        recyclerView.setVisibility(View.VISIBLE);
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+        NativeSurveysAdapter adapter = new NativeSurveysAdapter(new NativeSurveysAdapter.NativeSurveysClickListener() {
+            @Override
+            public void surveyClicked(String surveyId) {
+                showNativeSurvey(surveyId);
+            }
+        }, nativeSurveys);
+        recyclerView.setAdapter(adapter);
+    }
+
+    private void showNativeSurvey(String surveyId) {
+        InBrain.getInstance().showNativeSurveyWith(this, surveyId, new StartSurveysCallback() {
             @Override
             public void onSuccess() {
                 Log.d("MainActivity", "Successfully started InBrain");
