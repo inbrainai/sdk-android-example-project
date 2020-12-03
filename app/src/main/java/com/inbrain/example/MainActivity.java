@@ -15,6 +15,8 @@ import com.inbrain.sdk.callback.GetRewardsCallback;
 import com.inbrain.sdk.callback.InBrainCallback;
 import com.inbrain.sdk.callback.StartSurveysCallback;
 import com.inbrain.sdk.callback.SurveysAvailableCallback;
+import com.inbrain.sdk.config.StatusBarConfig;
+import com.inbrain.sdk.config.ToolBarConfig;
 import com.inbrain.sdk.model.Reward;
 import com.inbrain.sdk.model.Survey;
 
@@ -114,16 +116,31 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void applyUiCustomization() {
-        InBrain.getInstance().setToolbarTitle(getString(R.string.app_name)); // set title
+        ToolBarConfig toolBarConfig = new ToolBarConfig();
+        toolBarConfig.setTitle(getString(R.string.app_name)); // set title
 
         boolean useResourceId = false;
         if (useResourceId) {
-            InBrain.getInstance().setToolbarColorResId(R.color.background); // set toolbar color with status bar
-            InBrain.getInstance().setTitleTextColorResId(android.R.color.white); // set toolbar text & icon color
+            toolBarConfig.setToolbarColorResId(R.color.colorAccent) // set toolbar color with status bar
+                    .setBackButtonColorResId(android.R.color.white) // set icon color
+                    .setTitleColorResId(android.R.color.white); //  set toolbar text
         } else {
-            InBrain.getInstance().setToolbarColor(getResources().getColor(R.color.colorAccent));
-            InBrain.getInstance().setTitleTextColor(getResources().getColor(android.R.color.white));
+            toolBarConfig.setToolbarColor(getResources().getColor(R.color.colorAccent))
+                    .setBackButtonColor(getResources().getColor(android.R.color.white))
+                    .setTitleColor(getResources().getColor(android.R.color.white));
         }
+        toolBarConfig.setElevationEnabled(false);
+        InBrain.getInstance().setToolbarConfig(toolBarConfig);
+
+        StatusBarConfig statusBarConfig = new StatusBarConfig();
+        if (useResourceId) {
+            statusBarConfig.setStatusBarColorResId(android.R.color.white)
+                    .setLightStatusBar(true);
+        } else {
+            statusBarConfig.setStatusBarColor(getResources().getColor(android.R.color.white))
+                    .setLightStatusBar(true);
+        }
+        InBrain.getInstance().setStatusBarConfig(statusBarConfig);
     }
 
     public void showSurveys(View view) {

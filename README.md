@@ -13,7 +13,7 @@ After that you just need to add the actual SDK dependency into build.gradle of t
 ```groovy
 dependencies {  
     // other dependencies here
-    implementation 'com.github.inbrainai:sdk-android:1.0.10'  
+    implementation 'com.github.inbrainai:sdk-android:1.0.12'  
 }
 ```
 That is all! After re-syncing the project from gradle files you will be able to start using inBrain SDK.
@@ -131,33 +131,80 @@ InBrain.getInstance().getRewards(new GetRewardsCallback() {
 ```
 
 ## UI customiztion
-1. Toolbar and status bar color
+**1. Toolbar:**
 
 ```java
-InBrain.getInstance().setToolbarColor(getResources().getColor(R.color.your_color));
+ToolBarConfig toolBarConfig = new ToolBarConfig();
+```
+Set toolbar color:
+
+```java
+toolBarConfig.setToolbarColor(getResources().getColor(R.color.your_color));
 ```
 Also you may pass color's resource id:
 ```java
-InBrain.getInstance().setToolbarColorResId(R.color.your_color); 
+toolBarConfig.setToolbarColorResId(R.color.your_color); 
 ```
-2. Title text's & icon's color
+Title:
 
 ```java
-InBrain.getInstance().setTitleTextColor(getResources().getColor(R.color.your_color));
-```
-Also you may pass color's resource id:
-```java
-InBrain.getInstance().setTitleTextColorResId(R.color.your_color); 
-```
-3. Title
-
-```java
-InBrain.getInstance().setToolbarTitle(getString(R.string.app_name));
+toolBarConfig.setToolbarTitle(getString(R.string.app_name));
 ```
 If you want to leave toolbar's text empty, just pass empty `String` to it.
 ```java
-InBrain.getInstance().setToolbarTitle("");
+toolBarConfig.setToolbarTitle("");
 ```
+Title text's color:
+
+```java
+toolBarConfig.setTitleColor(getResources().getColor(R.color.your_color));
+```
+Also you may pass color's resource id:
+```java
+toolBarConfig.setTitleColorResId(R.color.your_color); 
+```
+
+Back icon's color:
+
+```java
+toolBarConfig.setBackButtonColor(getResources().getColor(R.color.your_color));
+```
+Also you may pass color's resource id:
+```java
+toolBarConfig.setBackButtonColorResId(R.color.your_color); 
+```
+
+If you want to enable elevation for toolbar, use:
+```java
+toolBarConfig.setElevationEnabled(true);
+```
+
+Finally, set `toolBarConfig` to inBrain:
+```java
+InBrain.getInstance().setToolbarConfig(toolBarConfig);
+```
+
+**2. Status bar:**
+
+```java
+StatusBarConfig statusBarConfig = new StatusBarConfig();
+```
+
+Set status bar color:
+
+```java
+statusBarConfig.setStatusBarColor(getResources().getColor(R.color.your_color));
+```
+Also you may pass color's resource id:
+```java
+statusBarConfig.setStatusBarColorResId(R.color.your_color); 
+```
+
+If you need to invert colors (use light status bar icons)
+```java
+statusBarConfig.setLightStatusBar(true);
+```
+
 ## Language
 By default, device's locale's language will be used. If you want to change it, you need to call
 ```java
