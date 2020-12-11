@@ -135,10 +135,10 @@ public class MainActivity extends AppCompatActivity {
         StatusBarConfig statusBarConfig = new StatusBarConfig();
         if (useResourceId) {
             statusBarConfig.setStatusBarColorResId(android.R.color.white)
-                    .setLightStatusBar(true);
+                    .setStatusBarIconsLight(false);
         } else {
             statusBarConfig.setStatusBarColor(getResources().getColor(android.R.color.white))
-                    .setLightStatusBar(true);
+                    .setStatusBarIconsLight(false);
         }
         InBrain.getInstance().setStatusBarConfig(statusBarConfig);
     }

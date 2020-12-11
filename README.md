@@ -13,7 +13,7 @@ After that you just need to add the actual SDK dependency into build.gradle of t
 ```groovy
 dependencies {  
     // other dependencies here
-    implementation 'com.github.inbrainai:sdk-android:1.0.13'  
+    implementation 'com.github.inbrainai:sdk-android:1.0.14'  
 }
 ```
 That is all! After re-syncing the project from gradle files you will be able to start using inBrain SDK.
@@ -200,9 +200,9 @@ Also you may pass color's resource id:
 statusBarConfig.setStatusBarColorResId(R.color.your_color); 
 ```
 
-If you need to invert colors (use light status bar icons)
+By default, status bar icons' color will be white. If you need to use black status bar icons:
 ```java
-statusBarConfig.setLightStatusBar(true);
+statusBarConfig.setStatusBarIconsLight(false);
 ```
 
 ## Language
