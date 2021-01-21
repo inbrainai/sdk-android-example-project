@@ -228,3 +228,5 @@ InBrain.getInstance().areSurveysAvailable(this, new SurveysAvailableCallback() {
 	}
 });
 ```
+
+[CHANGELOG](https://github.com/inbrainai/sdk-android-example-project/blob/master/CHANGELOG.md)
