@@ -67,10 +67,20 @@ There a few steps to use InBrain Native Surveys:
 2) Receive Native Surveys using **nativeSurveysReceived(List<Survey> surveyList)** function of `GetNativeSurveysCallback` and show them to the user;
 3) Once user choosed some survey - present InBrain WebView using **InBrain.getInstance().showNativeSurveyWith(context, surveyId, new StartSurveysCallback())** function.
 
+
+When Fetching Native Surveys, each survey will be returned with 4 variables. You can use these variables to display the time and value of a survey in your in-app currency natively in your app's UI. You can further use a rank variable to display surveys in the most optimal ordering in your UI. Moreover, these variables can be used to display surveys in different context depending on your use-case (examples include: only show surveys 5min time and less, show the shortest survey in location A, show the highest value survey in location B, do not display surveys longer than 20 minutes, etc.). The 4 variables in detail are:
+
+**surveyID** - This variable is used to identify a unique survey. This unique identifier  is  used in step (3) shown above when presenting the WebView.
+**rank** - used to identify the best surveys for a user. Rank is determined by inBrain’s AI algorithm the deduces the top surveys in order from 1 (best survey) to 10 (10th best survey) for a particular survey taker. Rank is determined by several factors including time, value, conversion rate, demographic information, user preferences, conversions based on others with similar or matching profiles, and more.
+**time** - the estimated time to complete the survey in minutes. This is determined by the average time of successful completion across the entire inBrain Audience Network.
+**float value** - this is the amount of in-app currency that can be earned for that survey. This amount of in-app currency is determined by the ratio that you set in your dashboard.
+
 **Please, note:** SDK provides new portion of Native Surveys after user completed some of Native Surveys, received before.
+
 
 ## InBrainCallback
 The callback here is a sdk events & reward handling callback which is purely optional. You can add it using `addCallback` method. It can be done in `onCreate` method of an activity.
+
 
 ```
 InBrainCallback callback = new InBrainCallback() {
