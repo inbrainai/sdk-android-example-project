@@ -1,20 +1,19 @@
 package com.inbrain.example;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.inbrain.sdk.InBrain;
-import com.inbrain.sdk.callback.GetNativeSurveysCallback;
 import com.inbrain.sdk.callback.GetRewardsCallback;
 import com.inbrain.sdk.callback.InBrainCallback;
 import com.inbrain.sdk.callback.StartSurveysCallback;
-import com.inbrain.sdk.callback.SurveysAvailableCallback;
 import com.inbrain.sdk.config.StatusBarConfig;
 import com.inbrain.sdk.config.ToolBarConfig;
 import com.inbrain.sdk.model.Reward;
@@ -31,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     private float balance;
     private TextView balanceText;
-    private InBrainCallback callback = new InBrainCallback() {
+    private final InBrainCallback callback = new InBrainCallback() {
         @Override
         public void surveysClosed() {
             // inBrain screen is closed & user get back to your application
@@ -69,12 +68,9 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         getRewards();
         // request native surveys after user comes back from inbrain, it may be updated
-        InBrain.getInstance().getNativeSurveys(new GetNativeSurveysCallback() {
-            @Override
-            public void nativeSurveysReceived(List<Survey> surveyList) {
-                nativeSurveys = surveyList;
-                Log.d("MainActivity", "Native surveys available count:" + surveyList.size());
-            }
+        InBrain.getInstance().getNativeSurveys(surveyList -> {
+            nativeSurveys = surveyList;
+            Log.d("MainActivity", "Native surveys available count:" + surveyList.size());
         });
     }
 
@@ -107,12 +103,7 @@ public class MainActivity extends AppCompatActivity {
 //        String deviceId = InBrain.getInstance().getDeviceId();
 //        Log.d("MainActivity", "deviceId:" + deviceId);
 
-        InBrain.getInstance().areSurveysAvailable(this, new SurveysAvailableCallback() {
-            @Override
-            public void onSurveysAvailable(final boolean available) {
-                Log.d("MainActivity", "Surveys available:" + available);
-            }
-        });
+        InBrain.getInstance().areSurveysAvailable(this, available -> Log.d("MainActivity", "Surveys available:" + available));
     }
 
     private void applyUiCustomization() {
@@ -173,12 +164,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        NativeSurveysAdapter adapter = new NativeSurveysAdapter(new NativeSurveysAdapter.NativeSurveysClickListener() {
-            @Override
-            public void surveyClicked(String surveyId) {
-                showNativeSurvey(surveyId);
-            }
-        }, nativeSurveys);
+        NativeSurveysAdapter adapter = new NativeSurveysAdapter(this::showNativeSurvey, nativeSurveys);
         recyclerView.setAdapter(adapter);
     }
 
@@ -202,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Handles new rewards. It may be updating used balance of notifying your API about new rewards.
      *
-     * @param rewards
+     * @param rewards a list of rewards to be processed
      */
     private void processRewards(List<Reward> rewards) {
         float total = 0;
