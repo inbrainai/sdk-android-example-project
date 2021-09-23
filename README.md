@@ -63,9 +63,9 @@ This will open the survey wall in new activity. inBrain SDK will handle everythi
 ## Native surveys
 
 There a few steps to use InBrain Native Surveys:
-1) Fetch Native Surveys using **InBrain.getInstance().getNativeSurveys()** function;
+1) Fetch Native Surveys using **InBrain.getInstance().getNativeSurveys(callback)** or **InBrain.getInstance().getNativeSurveys(placementId, callback)** function;
 2) Receive Native Surveys using **nativeSurveysReceived(List<Survey> surveyList)** function of `GetNativeSurveysCallback` and show them to the user;
-3) Once user choosed some survey - present InBrain WebView using **InBrain.getInstance().showNativeSurveyWith(context, surveyId, new StartSurveysCallback())** function.
+3) Once user choosed some survey - present InBrain WebView using **InBrain.getInstance().showNativeSurveyWith(context, surveyId, new StartSurveysCallback())** or **InBrain.getInstance().showNativeSurveyWith(context, surveyId, placementId, new StartSurveysCallback())** function.
 
 **Please, note:** SDK provides new portion of Native Surveys after user completed some of Native Surveys, received before.
 
