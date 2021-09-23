@@ -1,6 +1,8 @@
 package com.inbrain.example;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +15,7 @@ import java.util.List;
 public class NativeSurveysAdapter extends RecyclerView.Adapter<NativeSurveysAdapter.ViewHolder> {
 
     private final NativeSurveysClickListener listener;
-    private List<Survey> surveys;
+    private final List<Survey> surveys;
 
     public NativeSurveysAdapter(NativeSurveysClickListener listener, List<Survey> surveys) {
         this.listener = listener;
@@ -25,6 +27,7 @@ public class NativeSurveysAdapter extends RecyclerView.Adapter<NativeSurveysAdap
         holder.setupSurvey(surveys.get(position));
     }
 
+    @NonNull
     @Override
     public NativeSurveysAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_survey, parent, false);
@@ -42,9 +45,9 @@ public class NativeSurveysAdapter extends RecyclerView.Adapter<NativeSurveysAdap
 
     class ViewHolder extends RecyclerView.ViewHolder {
         private final View rootView;
-        private TextView rankTextView;
-        private TextView valueTextView;
-        private TextView timeTextView;
+        private final TextView rankTextView;
+        private final TextView valueTextView;
+        private final TextView timeTextView;
 
         ViewHolder(View v) {
             super(v);
@@ -58,12 +61,7 @@ public class NativeSurveysAdapter extends RecyclerView.Adapter<NativeSurveysAdap
             rankTextView.setText("Rank:" + survey.rank);
             valueTextView.setText("Value:" + survey.value);
             timeTextView.setText("Time:" + survey.time);
-            rootView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    listener.surveyClicked(survey.id);
-                }
-            });
+            rootView.setOnClickListener(v -> listener.surveyClicked(survey.id));
         }
     }
 }
