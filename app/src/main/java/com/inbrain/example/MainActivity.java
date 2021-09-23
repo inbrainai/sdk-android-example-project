@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String PREFERENCE_BALANCE = "Balance";
     private static final String API_CLIENT_ID = "{clientIDhere}"; // your client id obtained by your account manager
     private static final String API_SECRET = "{clientSecrethere}"; // your client secret obtained by your account manager
+    private static final String PLACEMENT_ID = "{placementIDhere}"; // a specific placementId on which you wanna get/show surveys based
 
     private float balance;
     private TextView balanceText;
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         }
     };
     private List<Survey> nativeSurveys;
+    private List<Survey> nativeSurveysInPlace;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,10 +69,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         getRewards();
+
         // request native surveys after user comes back from inbrain, it may be updated
         InBrain.getInstance().getNativeSurveys(surveyList -> {
             nativeSurveys = surveyList;
             Log.d("MainActivity", "Native surveys available count:" + surveyList.size());
+        });
+
+        // You can also pass in an optional parameter "placementId" to get a location-basic filtered list of native surveys
+        InBrain.getInstance().getNativeSurveys(PLACEMENT_ID, surveyList -> {
+            nativeSurveysInPlace = surveyList;
+            Log.d("MainActivity", "Native surveys available count in this place:" + surveyList.size());
         });
     }
 
@@ -164,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        NativeSurveysAdapter adapter = new NativeSurveysAdapter(this::showNativeSurvey, nativeSurveys);
+        NativeSurveysAdapter adapter = new NativeSurveysAdapter(this::showNativeSurvey, nativeSurveys /* nativeSurveysInPlace */);
         recyclerView.setAdapter(adapter);
     }
 
@@ -183,6 +192,22 @@ public class MainActivity extends AppCompatActivity {
                         Toast.LENGTH_LONG).show();
             }
         });
+
+        // You can also pass in a specific placement_id to the Survey Wall like below
+//        InBrain.getInstance().showNativeSurveyWith(this, surveyId, PLACEMENT_ID, new StartSurveysCallback() {
+//            @Override
+//            public void onSuccess() {
+//                Log.d("MainActivity", "Successfully started InBrain, placement_id : " + PLACEMENT_ID);
+//            }
+//
+//            @Override
+//            public void onFail(String message) {
+//                Log.e("MainActivity", "Failed to start inBrain:" + message);
+//                Toast.makeText(MainActivity.this, // show some message or dialog to user
+//                        "Sorry, InBrain isn't supported on your device",
+//                        Toast.LENGTH_LONG).show();
+//            }
+//        });
     }
 
     /**
