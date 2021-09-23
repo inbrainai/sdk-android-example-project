@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.0.18](https://github.com/inbrainai/sdk-android/releases/tag/1.0.18) - 2021-09-23
+
+### Added
+- Add support for passing in an optional parameter `placement_id` to the native surveys APIs.
+---
 
 ## [1.0.16](https://github.com/inbrainai/sdk-android/releases/tag/1.0.16) - 2020-01-21
 
