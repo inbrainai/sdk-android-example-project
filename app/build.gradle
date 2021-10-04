@@ -34,7 +34,7 @@ android {
 }
 
 dependencies {
-    implementation 'com.github.inbrainai:sdk-android:1.0.18'
+    implementation 'com.github.inbrainai:sdk-android:1.0.19'
 
     implementation 'androidx.appcompat:appcompat:1.3.1'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
