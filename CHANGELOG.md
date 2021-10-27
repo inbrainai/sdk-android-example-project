@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.0.19](https://github.com/inbrainai/sdk-android/releases/tag/1.0.19) - 2021-10-04
+
+### Fixed
+- Enabled `setLanguage()` back.
+---
+
 ## [1.0.18](https://github.com/inbrainai/sdk-android/releases/tag/1.0.18) - 2021-09-23
 
 ### Added
