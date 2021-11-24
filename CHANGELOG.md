@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.0.20](https://github.com/inbrainai/sdk-android/releases/tag/1.0.20) - 2021-11-24
+
+### Fixed
+- Fixed the issue where we were often falling into a blank screen when trying to enter an inBrain survey.
+---
+
 ## [1.0.19](https://github.com/inbrainai/sdk-android/releases/tag/1.0.19) - 2021-10-04
 
 ### Fixed
