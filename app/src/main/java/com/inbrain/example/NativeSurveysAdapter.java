@@ -48,6 +48,8 @@ public class NativeSurveysAdapter extends RecyclerView.Adapter<NativeSurveysAdap
         private final TextView rankTextView;
         private final TextView valueTextView;
         private final TextView timeTextView;
+        private final TextView currencySaleTextView;
+        private final TextView multiplierTextView;
 
         ViewHolder(View v) {
             super(v);
@@ -55,12 +57,16 @@ public class NativeSurveysAdapter extends RecyclerView.Adapter<NativeSurveysAdap
             rankTextView = v.findViewById(R.id.rank_text_view);
             valueTextView = v.findViewById(R.id.value_text_view);
             timeTextView = v.findViewById(R.id.time_text_view);
+            currencySaleTextView = v.findViewById(R.id.currency_text_view);
+            multiplierTextView = v.findViewById(R.id.multiplier_text_view);
         }
 
         public void setupSurvey(final Survey survey) {
             rankTextView.setText("Rank:" + survey.rank);
             valueTextView.setText("Value:" + survey.value);
             timeTextView.setText("Time:" + survey.time);
+            currencySaleTextView.setText("Currency Sale:" + survey.currencySale);
+            multiplierTextView.setText("Multiplier:" + survey.multiplier);
             rootView.setOnClickListener(v -> listener.surveyClicked(survey.id));
         }
     }

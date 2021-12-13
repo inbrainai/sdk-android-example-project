@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.0.21](https://github.com/inbrainai/sdk-android/releases/tag/1.0.21) - 2021-12-13
+
+### Added
+- 2 additional properties (`currencySale` and `multiplier`) have become available for native surveys.
+---
+
 ## [1.0.20](https://github.com/inbrainai/sdk-android/releases/tag/1.0.20) - 2021-11-24
 
 ### Fixed
