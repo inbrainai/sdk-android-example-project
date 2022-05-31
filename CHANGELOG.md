@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.0.23](https://github.com/inbrainai/sdk-android/releases/tag/1.0.23) - 2022-05-31
+
+### Added/Fixed
+- Getters for 2 InBrain properties (`sessionUid` and `dataOptions`) have been exposed for convenience.
+- Upgraded AGP to latest and added `maven-publish` plugin to resolve some JitPack build warnings.
+---
+
 ## [1.0.21](https://github.com/inbrainai/sdk-android/releases/tag/1.0.21) - 2021-12-13
 
 ### Added
