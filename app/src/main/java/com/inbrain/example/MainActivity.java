@@ -23,10 +23,10 @@ import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String API_CLIENT_ID = "{CLIENT_ID}"; // Client Id
-    private static final String API_SECRET = "{CLIENT_SECRET}";// Client Secret
-    private static final String PLACEMENT_ID = null; // Used for custom placements with Native Surveys
-    private static final String USER_ID = "{USER_ID}"; // Unique User_id provided by your app
+    private static final String API_CLIENT_ID = "{CLIENT_ID}";  // Client Id
+    private static final String API_SECRET = "{CLIENT_SECRET}"; // Client Secret
+    private static final String PLACEMENT_ID = null;            // Used for custom placements with Native Surveys
+    private static final String USER_ID = "{USER_ID}";          // Unique User_id provided by your app
 
     private List<Survey> nativeSurveys;
 
@@ -59,6 +59,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        findViewById(R.id.btnOpenSurveyWall).setOnClickListener(view -> openSurveyWall());
+        findViewById(R.id.btnShowNativeSurveys).setOnClickListener(view -> showNativeSurveys());
+        findViewById(R.id.btnFetchCurrencySale).setOnClickListener(view -> fetchCurrencySale());
 
         initInBrain();
     }
@@ -100,8 +103,10 @@ public class MainActivity extends AppCompatActivity {
         InBrain.getInstance().areSurveysAvailable(this, available -> Log.d("MainActivity", "Surveys available:" + available));
     }
 
-    //Show The Survey Wall
-    public void showSurveys(View view) {
+    /**
+     * Open the Survey Wall
+     */
+    private void openSurveyWall() {
         InBrain.getInstance().showSurveys(this, new StartSurveysCallback() {
             @Override
             public void onSuccess() {
@@ -118,20 +123,37 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    //Show Native Surveys in our App
-    public void showNativeSurveys(View view) {
+    /**
+     * Fetch ongoing currency sale details
+     */
+    private void fetchCurrencySale() {
+        InBrain.getInstance().getCurrencySale(currencySale -> {
+            if (currencySale == null) {
+                Toast.makeText(this, "There's no ongoing currency sale now.", Toast.LENGTH_SHORT).show();
+            } else {
+                String currencySaleInfo = currencySale.description
+                        + "\n" + currencySale.startOn
+                        + "\n" + currencySale.endOn
+                        + "\n" + currencySale.multiplier;
+                Toast.makeText(this, currencySaleInfo, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    /**
+     * Show Native Surveys in your own App
+     */
+    private void showNativeSurveys() {
 
         //Checking if there are any nativeSurveys returned
         if (nativeSurveys == null || nativeSurveys.isEmpty()) {
-            Toast.makeText(MainActivity.this,
-                    "Sorry, no native surveys",
-                    Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, "Sorry, no native surveys available", Toast.LENGTH_LONG).show();
             return;
         }
 
         //Just some custom logic for this demo app
-        findViewById(R.id.show_native_surveys_button).setVisibility(View.GONE);
-        RecyclerView recyclerView = findViewById(R.id.native_surveys_recycler_view);
+        findViewById(R.id.btnShowNativeSurveys).setVisibility(View.GONE);
+        RecyclerView recyclerView = findViewById(R.id.recyclerNativeSurveys);
         recyclerView.setVisibility(View.VISIBLE);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -153,20 +175,21 @@ public class MainActivity extends AppCompatActivity {
             public void onFail(String message) {
                 Log.e("MainActivity", "Failed to start inBrain:" + message);
                 Toast.makeText(MainActivity.this, // show some message or dialog to user
-                        "Sorry, InBrain isn't supported on your device",
-                        Toast.LENGTH_LONG).show();
+                        "Sorry, InBrain isn't supported on your device", Toast.LENGTH_LONG).show();
             }
         });
     }
 
-    //Use this if you need to force check for rewards that may not have been returned in delegate method
+    /**
+     * Use this if you need to force check for rewards that may not have been returned in delegate method
+     */
     private void getInBrainRewards() {
         InBrain.getInstance().getRewards(new GetRewardsCallback() {
             @Override
             public boolean handleRewards(List<Reward> rewards) {
                 Log.d("MainActivity", "Received rewards:" + Arrays.toString(rewards.toArray()));
                 processRewards(rewards);
-                return true; //be sure to return true here.  This will automatically confirm rewards on the inBrain server side
+                return true; //be sure to return true here. This will automatically confirm rewards on the inBrain server side
             }
 
             @Override
@@ -220,4 +243,5 @@ public class MainActivity extends AppCompatActivity {
         }
         InBrain.getInstance().setStatusBarConfig(statusBarConfig);
     }
+
 }

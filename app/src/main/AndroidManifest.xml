@@ -13,6 +13,7 @@
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity android:name="com.inbrain.example.MainActivity"
+            android:label="@string/action_bar_title"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.0.24](https://github.com/inbrainai/sdk-android/releases/tag/1.0.24) - 2022-06-15
+
+### Added
+- Added support for some specific apps to fetch ongoing currency sale details.
+---
+
 ## [1.0.23](https://github.com/inbrainai/sdk-android/releases/tag/1.0.23) - 2022-05-31
 
 ### Added/Fixed
