@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.0.25](https://github.com/inbrainai/sdk-android/releases/tag/1.0.25) - 2022-07-03
+
+### Added
+- Added support for profile match. Each survey now has `conversionThreshold` field which reflects conversion rates.
+---
+
 ## [1.0.24](https://github.com/inbrainai/sdk-android/releases/tag/1.0.24) - 2022-06-15
 
 ### Added

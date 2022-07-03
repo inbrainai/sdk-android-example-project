@@ -35,7 +35,7 @@ android {
 
 dependencies {
 //    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
-    implementation 'com.github.inbrainai:sdk-android:1.0.24'
+    implementation 'com.github.inbrainai:sdk-android:1.0.25'
 
     implementation 'androidx.appcompat:appcompat:1.4.2'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
