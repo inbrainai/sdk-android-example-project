@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.0.27](https://github.com/inbrainai/sdk-android/releases/tag/1.0.27) - 2022-09-13
+
+### Fixed
+- Changed the redirect URL and dialog content when clicking back button to exit a survey.
+---
+
 ## [1.0.26](https://github.com/inbrainai/sdk-android/releases/tag/1.0.26) - 2022-09-05
 
 ### Fixed

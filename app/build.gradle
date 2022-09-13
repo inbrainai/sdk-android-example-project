@@ -5,7 +5,7 @@ repositories {
 }
 
 android {
-    compileSdkVersion 32
+    compileSdkVersion 33
     signingConfigs {
         release {
             storeFile file('../keystore/release.keystore')
@@ -17,7 +17,7 @@ android {
     defaultConfig {
         applicationId "com.inbrain.example"
         minSdkVersion 16
-        targetSdkVersion 32
+        targetSdkVersion 33
         versionCode 1
         versionName "1.0"
     }
@@ -35,9 +35,9 @@ android {
 
 dependencies {
 //    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
-    implementation 'com.github.inbrainai:sdk-android:1.0.25'
+    implementation 'com.github.inbrainai:sdk-android:1.0.27'
 
-    implementation 'androidx.appcompat:appcompat:1.5.0'
+    implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
 }
 
