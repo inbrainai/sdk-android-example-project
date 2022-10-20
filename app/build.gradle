@@ -1,5 +1,12 @@
 apply plugin: 'com.android.application'
 
+Properties keystore = new Properties()
+try {
+    keystore.load(project.rootProject.file('credentials.properties').newDataInputStream())
+} catch (Exception e) {
+    throw new IllegalStateException("Cannot open credentials.properties: " + e + ".")
+}
+
 repositories {
     maven { url "https://jitpack.io" }
 }
@@ -20,6 +27,13 @@ android {
         targetSdkVersion 33
         versionCode 1
         versionName "1.0"
+
+        buildConfigField "String", "QA_CLIENT_ID", keystore.getProperty('qa.client_id')
+        buildConfigField "String", "QA_CLIENT_SECRET", keystore.getProperty('qa.client_secret')
+        buildConfigField "String", "QA_USER_ID", keystore.getProperty('qa.user_id')
+        buildConfigField "String", "PROD_CLIENT_ID", keystore.getProperty('prod.client_id')
+        buildConfigField "String", "PROD_CLIENT_SECRET", keystore.getProperty('prod.client_secret')
+        buildConfigField "String", "PROD_USER_ID", keystore.getProperty('prod.user_id')
     }
     buildTypes {
         release {
@@ -28,6 +42,7 @@ android {
             signingConfig signingConfigs.release
         }
     }
+    namespace 'com.inbrain.example'
     applicationVariants.all { variant ->
         changeApkFileName(variant)
     }

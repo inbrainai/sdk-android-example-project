@@ -17,16 +17,22 @@ import com.inbrain.sdk.config.StatusBarConfig;
 import com.inbrain.sdk.config.ToolBarConfig;
 import com.inbrain.sdk.model.Reward;
 import com.inbrain.sdk.model.Survey;
+import com.inbrain.sdk.model.SurveyCategory;
+import com.inbrain.sdk.model.SurveyFilter;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String API_CLIENT_ID = "{CLIENT_ID}";  // Client Id
-    private static final String API_SECRET = "{CLIENT_SECRET}"; // Client Secret
-    private static final String PLACEMENT_ID = null;            // Used for custom placements with Native Surveys
-    private static final String USER_ID = "{USER_ID}";          // Unique User_id provided by your app
+
+    private static final boolean QA = true; // Set to {true} if you want to test on QA
+    private static final String API_CLIENT_ID = QA ? BuildConfig.QA_CLIENT_ID : BuildConfig.PROD_CLIENT_ID;      // Client Id
+    private static final String API_SECRET = QA ? BuildConfig.QA_CLIENT_SECRET : BuildConfig.PROD_CLIENT_SECRET; // Client Secret
+    private static final String USER_ID = QA ? BuildConfig.QA_USER_ID : BuildConfig.PROD_USER_ID;                // Unique User_id provided by your app
+
+    private static final String PLACEMENT_ID = null; // Used for custom placements with Native Surveys
 
     private List<Survey> nativeSurveys;
 
@@ -70,8 +76,27 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        // Request Native Surveys from inBrain
-        InBrain.getInstance().getNativeSurveys(PLACEMENT_ID, surveyList -> {
+        // (1) Fetch Native Surveys from inBrain
+        // ============================================
+        /*InBrain.getInstance().getNativeSurveys(surveyList -> {
+            nativeSurveys = surveyList;
+            Log.d("MainActivity", "Count of Native Surveys returned:" + surveyList.size());
+        });*/
+
+        // (2) Fetch Native Surveys from inBrain based on the given SurveyFilter
+        // ============================================
+        List<SurveyCategory> incCategories = new ArrayList<>();
+        incCategories.add(SurveyCategory.Home);
+        incCategories.add(SurveyCategory.PersonalCare);
+        List<SurveyCategory> excCategories = new ArrayList<>();
+        /*excCategories.add(SurveyCategory.SmokingTobacco);*/
+
+        SurveyFilter filter = new SurveyFilter();
+        filter.placementId = PLACEMENT_ID;
+        filter.includeCategories = incCategories;
+        filter.excludeCategories = excCategories;
+
+        InBrain.getInstance().getNativeSurveys(filter, surveyList -> {
             nativeSurveys = surveyList;
             Log.d("MainActivity", "Count of Native Surveys returned:" + surveyList.size());
         });
@@ -86,6 +111,8 @@ public class MainActivity extends AppCompatActivity {
     private void initInBrain() {
         //this line must be called prior to utilizing any other inBrain functions
         InBrain.getInstance().setInBrain(this, API_CLIENT_ID, API_SECRET, false, USER_ID);
+
+        InBrain.getInstance().setStagingMode(QA);
 
         InBrain.getInstance().addCallback(callback); // subscribe to events and new rewards
 
@@ -144,7 +171,6 @@ public class MainActivity extends AppCompatActivity {
      * Show Native Surveys in your own App
      */
     private void showNativeSurveys() {
-
         //Checking if there are any nativeSurveys returned
         if (nativeSurveys == null || nativeSurveys.isEmpty()) {
             Toast.makeText(MainActivity.this, "Sorry, no native surveys available", Toast.LENGTH_LONG).show();

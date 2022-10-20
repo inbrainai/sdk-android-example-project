@@ -3,6 +3,7 @@ package com.inbrain.example;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +51,9 @@ public class NativeSurveysAdapter extends RecyclerView.Adapter<NativeSurveysAdap
         private final TextView timeTextView;
         private final TextView currencySaleTextView;
         private final TextView multiplierTextView;
+        private final TextView conversionTextView;
+        private final TextView categoriesTextView;
+        private final TextView searchIdTextView;
 
         ViewHolder(View v) {
             super(v);
@@ -59,14 +63,21 @@ public class NativeSurveysAdapter extends RecyclerView.Adapter<NativeSurveysAdap
             timeTextView = v.findViewById(R.id.time_text_view);
             currencySaleTextView = v.findViewById(R.id.currency_text_view);
             multiplierTextView = v.findViewById(R.id.multiplier_text_view);
+            conversionTextView = v.findViewById(R.id.conversion_threshold_text_view);
+            categoriesTextView = v.findViewById(R.id.categories_text_view);
+            searchIdTextView = v.findViewById(R.id.search_id_text_view);
         }
 
+        @SuppressLint("SetTextI18n")
         public void setupSurvey(final Survey survey) {
-            rankTextView.setText("Rank:" + survey.rank);
-            valueTextView.setText("Value:" + survey.value);
-            timeTextView.setText("Time:" + survey.time);
-            currencySaleTextView.setText("Currency Sale:" + survey.currencySale);
-            multiplierTextView.setText("Multiplier:" + survey.multiplier);
+            rankTextView.setText("Rank: " + survey.rank);
+            valueTextView.setText("Value: " + survey.value);
+            timeTextView.setText("Time: " + survey.time);
+            currencySaleTextView.setText("CurrencySale: " + survey.currencySale);
+            multiplierTextView.setText("Multiplier: " + survey.multiplier);
+            conversionTextView.setText("Conversion: " + survey.conversionThreshold);
+            categoriesTextView.setText("Categories: " + survey.categories);
+            searchIdTextView.setText("SearchID: " + survey.searchId);
             rootView.setOnClickListener(v -> listener.surveyClicked(survey.id));
         }
     }

@@ -12,30 +12,47 @@
         android:id="@+id/rank_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="rank:1" />
+        tools:text="Rank: 1" />
 
     <TextView
         android:id="@+id/value_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="value:386.0" />
+        tools:text="Value: 386.0" />
 
     <TextView
         android:id="@+id/time_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="time:10" />
+        tools:text="Time: 10" />
 
     <TextView
         android:id="@+id/currency_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="time:10" />
+        tools:text="CurrencySale: false" />
 
     <TextView
         android:id="@+id/multiplier_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="time:10" />
+        tools:text="Multiplier: 1.0" />
 
+    <TextView
+        android:id="@+id/conversion_threshold_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Conversion: 10" />
+
+    <TextView
+        android:id="@+id/categories_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Categories: [Business, Food]" />
+
+    <TextView
+        android:id="@+id/search_id_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="SearchID: 10000" />
 </LinearLayout>
