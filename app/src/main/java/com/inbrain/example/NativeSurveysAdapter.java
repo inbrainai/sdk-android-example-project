@@ -41,7 +41,7 @@ public class NativeSurveysAdapter extends RecyclerView.Adapter<NativeSurveysAdap
     }
 
     interface NativeSurveysClickListener {
-        void surveyClicked(String surveyId);
+        void surveyClicked(Survey survey);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -78,7 +78,7 @@ public class NativeSurveysAdapter extends RecyclerView.Adapter<NativeSurveysAdap
             conversionTextView.setText("Conversion: " + survey.conversionThreshold);
             categoriesTextView.setText("Categories: " + survey.categories);
             searchIdTextView.setText("SearchID: " + survey.searchId);
-            rootView.setOnClickListener(v -> listener.surveyClicked(survey.id));
+            rootView.setOnClickListener(v -> listener.surveyClicked(survey));
         }
     }
 }

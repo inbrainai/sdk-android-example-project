@@ -27,7 +27,7 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final boolean QA = true; // Set to {true} if you want to test on QA
+    private static final boolean QA = false; // Set to {true} if you want to test on QA
     private static final String API_CLIENT_ID = QA ? BuildConfig.QA_CLIENT_ID : BuildConfig.PROD_CLIENT_ID;      // Client Id
     private static final String API_SECRET = QA ? BuildConfig.QA_CLIENT_SECRET : BuildConfig.PROD_CLIENT_SECRET; // Client Secret
     private static final String USER_ID = QA ? BuildConfig.QA_USER_ID : BuildConfig.PROD_USER_ID;                // Unique User_id provided by your app
@@ -90,12 +90,10 @@ public class MainActivity extends AppCompatActivity {
         incCategories.add(SurveyCategory.PersonalCare);
         List<SurveyCategory> excCategories = new ArrayList<>();
         /*excCategories.add(SurveyCategory.SmokingTobacco);*/
-
         SurveyFilter filter = new SurveyFilter();
         filter.placementId = PLACEMENT_ID;
         filter.includeCategories = incCategories;
         filter.excludeCategories = excCategories;
-
         InBrain.getInstance().getNativeSurveys(filter, surveyList -> {
             nativeSurveys = surveyList;
             Log.d("MainActivity", "Count of Native Surveys returned:" + surveyList.size());
@@ -190,8 +188,8 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
-    private void showNativeSurvey(String surveyId) {
-        InBrain.getInstance().showNativeSurveyWith(this, surveyId, PLACEMENT_ID, new StartSurveysCallback() {
+    private void showNativeSurvey(Survey survey) {
+        InBrain.getInstance().showNativeSurvey(this, survey, new StartSurveysCallback() {
             @Override
             public void onSuccess() {
                 Log.d("MainActivity", "Successfully started InBrain");
