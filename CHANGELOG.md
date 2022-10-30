@@ -1,6 +1,19 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.0.0](https://github.com/inbrainai/sdk-android/releases/tag/2.0.0) - 2022-10-30
+
+### Added/Fixed
+- Added support for categories.
+- Improved usage of native surveys methods.
+---
+
+## [1.0.28](https://github.com/inbrainai/sdk-android/releases/tag/1.0.28) - 2022-10-24
+
+### Fixed
+- Fixed the proguard rule.
+---
+
 ## [1.0.27](https://github.com/inbrainai/sdk-android/releases/tag/1.0.27) - 2022-09-13
 
 ### Fixed
