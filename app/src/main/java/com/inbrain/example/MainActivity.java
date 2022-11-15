@@ -86,8 +86,8 @@ public class MainActivity extends AppCompatActivity {
         // (2) Fetch Native Surveys from inBrain based on the given SurveyFilter
         // ============================================
         List<SurveyCategory> incCategories = new ArrayList<>();
-        incCategories.add(SurveyCategory.Home);
-        incCategories.add(SurveyCategory.PersonalCare);
+//        incCategories.add(SurveyCategory.Home);
+//        incCategories.add(SurveyCategory.PersonalCare);
         List<SurveyCategory> excCategories = new ArrayList<>();
         /*excCategories.add(SurveyCategory.SmokingTobacco);*/
         SurveyFilter filter = new SurveyFilter();
