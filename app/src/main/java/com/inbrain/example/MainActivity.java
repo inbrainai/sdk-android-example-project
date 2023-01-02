@@ -15,6 +15,7 @@ import com.inbrain.sdk.callback.InBrainCallback;
 import com.inbrain.sdk.callback.StartSurveysCallback;
 import com.inbrain.sdk.config.StatusBarConfig;
 import com.inbrain.sdk.config.ToolBarConfig;
+import com.inbrain.sdk.model.InBrainSurveyReward;
 import com.inbrain.sdk.model.Reward;
 import com.inbrain.sdk.model.Survey;
 import com.inbrain.sdk.model.SurveyCategory;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,19 +39,20 @@ public class MainActivity extends AppCompatActivity {
     private List<Survey> nativeSurveys;
 
     private final InBrainCallback callback = new InBrainCallback() {
-        @Override
-        public void surveysClosed() {
-            Log.d("MainActivity", "Survey Wall Closed");
-            // User Closed The Survey Wall and Control returned to App
-            // Get Rewards earned from Survey Wall Flow
-            getInBrainRewards();
-        }
 
         @Override
-        public void surveysClosedFromPage() {
-            Log.d("MainActivity", "Native Survey Closed");
-            // Native Survey Flow Finished and Control returned to App
-            // Get Rewards earned from Native Survey Flow
+        public void surveysClosed(boolean byWebView, Optional<List<InBrainSurveyReward>> rewards) {
+            /**
+             Called upon dismissal of inBrainWebView.
+             If you are using Native Surveys - please, ensure the surveys reloaded after some survey(s) completed.
+
+             @param byWebView: **true** means closed by WebView's command; **false** - closed by user;
+             @param rewards: **NOTE:** At the moment only first** Native Survey reward is delivered.
+             That means if the user complete a Native Survey, proceed to Survey Wall and complete one more survey - only first
+             reward will be delivered. In case of Survey Wall usage only - no rewards will be delivered.
+             */
+
+            Log.d("MainActivity", "Surveys closed");
             getInBrainRewards();
         }
 
@@ -110,16 +113,7 @@ public class MainActivity extends AppCompatActivity {
         //this line must be called prior to utilizing any other inBrain functions
         InBrain.getInstance().setInBrain(this, API_CLIENT_ID, API_SECRET, false, USER_ID);
 
-        InBrain.getInstance().setStagingMode(QA);
-
         InBrain.getInstance().addCallback(callback); // subscribe to events and new rewards
-
-        //You can also pass tracking data as well as demographic data.  Note: THIS IS OPTIONAL
-        /*String trackingData = "{ someCustom: 'tracking_data'}"; //this will be passed to your server via S2S postbacks
-        HashMap<String, String> dataOptions = new HashMap<>();
-        dataOptions.put("gender", "female");
-        dataOptions.put("age", "26");
-        InBrain.getInstance().setInBrainValuesFor(trackingData, dataOptions);*/
 
         //Here we are applying some custom UI settings for inBrain
         applyUiCustomization();
