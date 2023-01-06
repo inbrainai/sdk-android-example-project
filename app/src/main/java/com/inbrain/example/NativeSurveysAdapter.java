@@ -75,7 +75,7 @@ public class NativeSurveysAdapter extends RecyclerView.Adapter<NativeSurveysAdap
             timeTextView.setText("Time: " + survey.time);
             currencySaleTextView.setText("CurrencySale: " + survey.currencySale);
             multiplierTextView.setText("Multiplier: " + survey.multiplier);
-            conversionTextView.setText("Conversion: " + survey.conversionThreshold);
+            conversionTextView.setText("Conversion: " + survey.conversionLevel);
             categoriesTextView.setText("Categories: " + survey.categories);
             searchIdTextView.setText("SearchID: " + survey.searchId);
             rootView.setOnClickListener(v -> listener.surveyClicked(survey));

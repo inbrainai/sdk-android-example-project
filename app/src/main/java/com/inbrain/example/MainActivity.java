@@ -40,6 +40,23 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void surveysClosed(boolean byWebView, List<InBrainSurveyReward> rewards) {
             Log.d("MainActivity", "Surveys closed");
+
+            StringBuilder outText = new StringBuilder("Survey outcome from callback:");
+            if (rewards != null) {
+                for (InBrainSurveyReward reward : rewards) {
+                    outText.append("\n")
+                            .append("Survey(")
+                            .append(reward.getSurveyId())
+                            .append(") has been ")
+                            .append(reward.getOutcomeType().name())
+                            .append(" with reward ")
+                            .append(reward.getUserReward())
+                            .append(".");
+                }
+                Toast.makeText(MainActivity.this, outText.toString(), Toast.LENGTH_LONG).show();
+            }
+
+            // Manually check rewards received
             getInBrainRewards();
         }
 
@@ -76,8 +93,8 @@ public class MainActivity extends AppCompatActivity {
         // (2) Fetch Native Surveys from inBrain based on the given SurveyFilter
         // ============================================
         List<SurveyCategory> incCategories = new ArrayList<>();
-//        incCategories.add(SurveyCategory.Home);
-//        incCategories.add(SurveyCategory.PersonalCare);
+        /*incCategories.add(SurveyCategory.Home);
+        incCategories.add(SurveyCategory.PersonalCare);*/
         List<SurveyCategory> excCategories = new ArrayList<>();
         /*excCategories.add(SurveyCategory.SmokingTobacco);*/
         SurveyFilter filter = new SurveyFilter();
@@ -97,8 +114,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initInBrain() {
-        //this line must be called prior to utilizing any other inBrain functions
-        InBrain.getInstance().setInBrain(this, API_CLIENT_ID, API_SECRET, false, USER_ID);
+        // This line MUST be called prior to utilizing any other inBrain functions. You can optionally pass in USER_ID param to the function.
+//        InBrain.getInstance().setInBrain(this, API_CLIENT_ID, API_SECRET, false, USER_ID);
+        InBrain.getInstance().setInBrain(this, API_CLIENT_ID, API_SECRET, false);
+        InBrain.getInstance().setUserID(this, USER_ID);
 
         InBrain.getInstance().addCallback(callback); // subscribe to events and new rewards
 
@@ -212,11 +231,12 @@ public class MainActivity extends AppCompatActivity {
 
         if (rewards.isEmpty()) {
             Toast.makeText(MainActivity.this,
-                    "You have no new rewards!",
+                    "Force check rewards:\nYou have no new rewards!",
                     Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(MainActivity.this,
-                    String.format(Locale.getDefault(), "You have received %d new rewards for a total of %.1f %s!", rewards.size(), total, rewards.get(0).currency),
+                    String.format(Locale.getDefault(), "Force check rewards:\nYou have received %d new rewards for a total of %.1f %s!",
+                            rewards.size(), total, rewards.get(0).currency),
                     Toast.LENGTH_LONG).show();
         }
     }

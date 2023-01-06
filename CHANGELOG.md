@@ -1,6 +1,18 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.1.2](https://github.com/inbrainai/sdk-android/releases/tag/2.1.2) - 2023-01-03
+
+### Added/Fixed
+- Added option to setup SDK without `userId`.
+- Added option to set `userId` separately from SDK setup.
+- Added info about survey's conversion level.
+- Added option to confirm rewards by transactionIds.
+- Added option to setup `sessionId` and `dataOptions` separately.
+- Added new callback with information about reward for NativeSurveys.
+- Deprecated some old functions and properties.
+---
+
 ## [2.0.0](https://github.com/inbrainai/sdk-android/releases/tag/2.0.0) - 2022-10-30
 
 ### Added/Fixed
