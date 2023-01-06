@@ -25,33 +25,20 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import java.util.Optional;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final boolean QA = false; // Set to {true} if you want to test on QA
-    private static final String API_CLIENT_ID = QA ? BuildConfig.QA_CLIENT_ID : BuildConfig.PROD_CLIENT_ID;      // Client Id
-    private static final String API_SECRET = QA ? BuildConfig.QA_CLIENT_SECRET : BuildConfig.PROD_CLIENT_SECRET; // Client Secret
-    private static final String USER_ID = QA ? BuildConfig.QA_USER_ID : BuildConfig.PROD_USER_ID;                // Unique User_id provided by your app
-
-    private static final String PLACEMENT_ID = null; // Used for custom placements with Native Surveys
+    private static final String API_CLIENT_ID = "YOUR_CLIENT_ID";   // Client Id
+    private static final String API_SECRET = "YOUR_CLIENT_SECRET";  // Client Secret
+    private static final String USER_ID = "YOUR_USER_ID_QA";        // Unique User_id provided by your app
+    private static final String PLACEMENT_ID = null;                // Used for custom placements with Native Surveys
 
     private List<Survey> nativeSurveys;
 
     private final InBrainCallback callback = new InBrainCallback() {
 
         @Override
-        public void surveysClosed(boolean byWebView, Optional<List<InBrainSurveyReward>> rewards) {
-            /**
-             Called upon dismissal of inBrainWebView.
-             If you are using Native Surveys - please, ensure the surveys reloaded after some survey(s) completed.
-
-             @param byWebView: **true** means closed by WebView's command; **false** - closed by user;
-             @param rewards: **NOTE:** At the moment only first** Native Survey reward is delivered.
-             That means if the user complete a Native Survey, proceed to Survey Wall and complete one more survey - only first
-             reward will be delivered. In case of Survey Wall usage only - no rewards will be delivered.
-             */
-
+        public void surveysClosed(boolean byWebView, List<InBrainSurveyReward> rewards) {
             Log.d("MainActivity", "Surveys closed");
             getInBrainRewards();
         }
