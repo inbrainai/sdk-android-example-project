@@ -3,6 +3,8 @@ package com.inbrain.example;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -75,6 +77,18 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btnOpenSurveyWall).setOnClickListener(view -> openSurveyWall());
         findViewById(R.id.btnShowNativeSurveys).setOnClickListener(view -> showNativeSurveys());
         findViewById(R.id.btnFetchCurrencySale).setOnClickListener(view -> fetchCurrencySale());
+        CheckBox chbSessionId = findViewById(R.id.chbSessionId);
+        EditText edtSessionId = findViewById(R.id.edtSessionId);
+        chbSessionId.setOnCheckedChangeListener((compoundButton, checked) -> {
+            if (checked) {
+                String sessionId = String.valueOf(edtSessionId.getText());
+                if (!sessionId.isEmpty()) {
+                    InBrain.getInstance().setSessionId(sessionId);
+                    return;
+                }
+            }
+            InBrain.getInstance().setSessionId(null);
+        });
 
         initInBrain();
     }
