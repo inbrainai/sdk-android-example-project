@@ -30,6 +30,8 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String LOG_TAG = "InBrainExample";
+
     private static final String API_CLIENT_ID = "YOUR_CLIENT_ID";   // Client Id
     private static final String API_SECRET = "YOUR_CLIENT_SECRET";  // Client Secret
     private static final String USER_ID = "YOUR_USER_ID_QA";        // Unique User_id provided by your app
@@ -37,37 +39,26 @@ public class MainActivity extends AppCompatActivity {
 
     private List<Survey> nativeSurveys;
 
-    private final InBrainCallback callback = new InBrainCallback() {
+    private final InBrainCallback callback = (byWebView, rewards) -> {
+        Log.d(LOG_TAG, "Surveys closed");
 
-        @Override
-        public void surveysClosed(boolean byWebView, List<InBrainSurveyReward> rewards) {
-            Log.d("MainActivity", "Surveys closed");
-
-            StringBuilder outText = new StringBuilder("Survey outcome from callback:");
-            if (rewards != null) {
-                for (InBrainSurveyReward reward : rewards) {
-                    outText.append("\n")
-                            .append("Survey(")
-                            .append(reward.getSurveyId())
-                            .append(") has been ")
-                            .append(reward.getOutcomeType().name())
-                            .append(" with reward ")
-                            .append(reward.getUserReward())
-                            .append(".");
-                }
-                Toast.makeText(MainActivity.this, outText.toString(), Toast.LENGTH_LONG).show();
+        StringBuilder outText = new StringBuilder("Survey outcome from callback:");
+        if (rewards != null) {
+            for (InBrainSurveyReward reward : rewards) {
+                outText.append("\n")
+                        .append("Survey(")
+                        .append(reward.getSurveyId())
+                        .append(") has been ")
+                        .append(reward.getOutcomeType().name())
+                        .append(" with reward ")
+                        .append(reward.getUserReward())
+                        .append(".");
             }
-
-            // Manually check rewards received
-            getInBrainRewards();
+            Toast.makeText(MainActivity.this, outText.toString(), Toast.LENGTH_LONG).show();
         }
 
-        @Override
-        public boolean didReceiveInBrainRewards(List<Reward> rewards) {
-            // THIS METHOD IS DEPRECATED...USE getInBrainRewards() INSTEAD
-            // note: this method can be called during SDK usage while your activity is in 'onStop' state
-            return false; //this should always be false
-        }
+        // Manually check rewards received
+        getInBrainRewards();
     };
 
     @Override
@@ -77,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btnOpenSurveyWall).setOnClickListener(view -> openSurveyWall());
         findViewById(R.id.btnShowNativeSurveys).setOnClickListener(view -> showNativeSurveys());
         findViewById(R.id.btnFetchCurrencySale).setOnClickListener(view -> fetchCurrencySale());
+
         CheckBox chbSessionId = findViewById(R.id.chbSessionId);
         EditText edtSessionId = findViewById(R.id.edtSessionId);
         chbSessionId.setOnCheckedChangeListener((compoundButton, checked) -> {
@@ -101,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         // ============================================
         /*InBrain.getInstance().getNativeSurveys(surveyList -> {
             nativeSurveys = surveyList;
-            Log.d("MainActivity", "Count of Native Surveys returned:" + surveyList.size());
+            Log.d(LOG_TAG, "Count of Native Surveys returned:" + surveyList.size());
         });*/
 
         // (2) Fetch Native Surveys from inBrain based on the given SurveyFilter
@@ -117,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
         filter.excludeCategories = excCategories;
         InBrain.getInstance().getNativeSurveys(filter, surveyList -> {
             nativeSurveys = surveyList;
-            Log.d("MainActivity", "Count of Native Surveys returned:" + surveyList.size());
+            Log.d(LOG_TAG, "Count of Native Surveys returned:" + surveyList.size());
         });
     }
 
@@ -137,26 +129,33 @@ public class MainActivity extends AppCompatActivity {
 
         //Here we are applying some custom UI settings for inBrain
         applyUiCustomization();
-
-        //Checking if Surveys are Available
-        InBrain.getInstance().areSurveysAvailable(this, available -> Log.d("MainActivity", "Surveys available:" + available));
     }
 
     /**
      * Open the Survey Wall
      */
     private void openSurveyWall() {
-        InBrain.getInstance().showSurveys(this, new StartSurveysCallback() {
-            @Override
-            public void onSuccess() {
-                Log.d("MainActivity", "Survey Wall Display Successfully");
-            }
+        //Checking if Surveys are Available
+        InBrain.getInstance().areSurveysAvailable(this, available -> {
+            Log.d(LOG_TAG, "Surveys available:" + available);
+            if (available) {
+                InBrain.getInstance().showSurveys(this, new StartSurveysCallback() {
+                    @Override
+                    public void onSuccess() {
+                        Log.d(LOG_TAG, "Survey Wall Display Successfully");
+                    }
 
-            @Override
-            public void onFail(String message) {
-                Log.e("MainActivity", "Failed to Show inBrain Survey Wall: " + message);
-                Toast.makeText(MainActivity.this, // show some message or dialog to user
-                        "Sorry, something went wrong!",
+                    @Override
+                    public void onFail(String message) {
+                        Log.e(LOG_TAG, "Failed to Show inBrain Survey Wall: " + message);
+                        Toast.makeText(MainActivity.this,
+                                "Sorry, something went wrong!",
+                                Toast.LENGTH_LONG).show();
+                    }
+                });
+            } else {
+                Toast.makeText(MainActivity.this,
+                        "Oops... No surveys available right now!",
                         Toast.LENGTH_LONG).show();
             }
         });
@@ -206,12 +205,12 @@ public class MainActivity extends AppCompatActivity {
         InBrain.getInstance().showNativeSurvey(this, survey, new StartSurveysCallback() {
             @Override
             public void onSuccess() {
-                Log.d("MainActivity", "Successfully started InBrain");
+                Log.d(LOG_TAG, "Successfully started InBrain");
             }
 
             @Override
             public void onFail(String message) {
-                Log.e("MainActivity", "Failed to start inBrain:" + message);
+                Log.e(LOG_TAG, "Failed to start inBrain:" + message);
                 Toast.makeText(MainActivity.this, // show some message or dialog to user
                         "Sorry, InBrain isn't supported on your device", Toast.LENGTH_LONG).show();
             }
@@ -225,14 +224,14 @@ public class MainActivity extends AppCompatActivity {
         InBrain.getInstance().getRewards(new GetRewardsCallback() {
             @Override
             public boolean handleRewards(List<Reward> rewards) {
-                Log.d("MainActivity", "Received rewards:" + Arrays.toString(rewards.toArray()));
+                Log.d(LOG_TAG, "Received rewards:" + Arrays.toString(rewards.toArray()));
                 processRewards(rewards);
                 return true; //be sure to return true here. This will automatically confirm rewards on the inBrain server side
             }
 
             @Override
             public void onFailToLoadRewards(Throwable t) {
-                Log.e("MainActivity", "onFailToLoadRewards:" + t);
+                Log.e(LOG_TAG, "onFailToLoadRewards:" + t);
             }
         });
     }

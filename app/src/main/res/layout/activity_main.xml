@@ -28,6 +28,8 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="24dp"
             android:hint="eg. daily-survey"
+            android:importantForAutofill="no"
+            android:inputType="text"
             tools:ignore="HardcodedText" />
     </LinearLayout>
 

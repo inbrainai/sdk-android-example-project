@@ -1,6 +1,16 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.1.5](https://github.com/inbrainai/sdk-android/releases/tag/2.1.5) - 2023-01-30
+
+### Added/Fixed
+- Include a sub module example for easier test purpose.
+- Remove useless logic regarding confirmedRewardsIds and lastReceivedRewards.
+- Make didReceiveInBrainRewards() optional.
+- Adjust default toolbar and statusbar configs.
+- Make it possible to init InBrain outside main thread.
+---
+
 ## [2.1.2](https://github.com/inbrainai/sdk-android/releases/tag/2.1.2) - 2023-01-03
 
 ### Added/Fixed
