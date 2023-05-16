@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.1.6](https://github.com/inbrainai/sdk-android/releases/tag/2.1.6) - 2023-02-13
+
+### Fixed
+- Fixed an issue accessing Kotlin code from C#
+---
+
 ## [2.1.5](https://github.com/inbrainai/sdk-android/releases/tag/2.1.5) - 2023-01-30
 
 ### Added/Fixed
