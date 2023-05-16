@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.1.11](https://github.com/inbrainai/sdk-android/releases/tag/2.1.11) - 2023-05-16
+
+### Fixed
+- Update surveys availability checking logic
+- Refactor and cleanup codes
+---
+
 ## [2.1.6](https://github.com/inbrainai/sdk-android/releases/tag/2.1.6) - 2023-02-13
 
 ### Fixed
