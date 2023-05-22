@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.1.13](https://github.com/inbrainai/sdk-android/releases/tag/2.1.13) - 2023-05-22
+
+### Fixed
+- Fixed an issue parsing parameters of `getNativeSurveys` request
+---
+
 ## [2.1.12](https://github.com/inbrainai/sdk-android/releases/tag/2.1.12) - 2023-05-16
 
 ### Fixed
