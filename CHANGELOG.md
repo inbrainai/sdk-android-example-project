@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.1.16](https://github.com/inbrainai/sdk-android/releases/tag/2.1.16) - 2023-06-26
+
+### Fixed
+- Fixed a gradle build issue cased by the dependency `androidx.core:core-ktx`
+---
+
 ## [2.1.15](https://github.com/inbrainai/sdk-android/releases/tag/2.1.15) - 2023-06-07
 
 ### Fixed
