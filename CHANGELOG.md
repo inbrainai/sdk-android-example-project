@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.1.17](https://github.com/inbrainai/sdk-android/releases/tag/2.1.17) - 2023-07-18
+
+### Fixed
+- Fixed a crash of `getRewards()`
+---
+
 ## [2.1.16](https://github.com/inbrainai/sdk-android/releases/tag/2.1.16) - 2023-06-26
 
 ### Fixed
