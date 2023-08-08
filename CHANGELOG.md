@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.1.18](https://github.com/inbrainai/sdk-android/releases/tag/2.1.18) - 2023-08-08
+
+### Fixed
+- Updated the ProGuard rule to deobfuscate public method parameters
+---
+
 ## [2.1.17](https://github.com/inbrainai/sdk-android/releases/tag/2.1.17) - 2023-07-18
 
 ### Fixed
