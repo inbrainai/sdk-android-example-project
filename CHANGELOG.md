@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.2.0](https://github.com/inbrainai/sdk-android/releases/tag/2.2.0) - 2023-10-11
+
+### Added
+- Added a new flag (`isProfilerSurvey`) to the `Survey` object
+---
+
 ## [2.1.18](https://github.com/inbrainai/sdk-android/releases/tag/2.1.18) - 2023-08-08
 
 ### Fixed

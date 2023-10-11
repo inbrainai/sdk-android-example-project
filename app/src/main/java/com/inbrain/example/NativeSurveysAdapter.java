@@ -54,6 +54,7 @@ public class NativeSurveysAdapter extends RecyclerView.Adapter<NativeSurveysAdap
         private final TextView conversionTextView;
         private final TextView categoriesTextView;
         private final TextView searchIdTextView;
+        private final TextView isProfilerTextView;
 
         ViewHolder(View v) {
             super(v);
@@ -66,6 +67,7 @@ public class NativeSurveysAdapter extends RecyclerView.Adapter<NativeSurveysAdap
             conversionTextView = v.findViewById(R.id.conversion_threshold_text_view);
             categoriesTextView = v.findViewById(R.id.categories_text_view);
             searchIdTextView = v.findViewById(R.id.search_id_text_view);
+            isProfilerTextView = v.findViewById(R.id.is_profiler_text_view);
         }
 
         @SuppressLint("SetTextI18n")
@@ -78,6 +80,7 @@ public class NativeSurveysAdapter extends RecyclerView.Adapter<NativeSurveysAdap
             conversionTextView.setText("Conversion: " + survey.conversionLevel);
             categoriesTextView.setText("Categories: " + survey.categories);
             searchIdTextView.setText("SearchID: " + survey.searchId);
+            isProfilerTextView.setText("isProfiler: " + survey.isProfilerSurvey);
             rootView.setOnClickListener(v -> listener.surveyClicked(survey));
         }
     }
