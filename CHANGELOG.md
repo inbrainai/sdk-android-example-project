@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.3.0](https://github.com/inbrainai/sdk-android/releases/tag/2.3.0) - 2024-01-04
+
+### Fixed
+- Fixed a few possible crashes including one that might happen when WebView package is not installed
+---
+
 ## [2.2.0](https://github.com/inbrainai/sdk-android/releases/tag/2.2.0) - 2023-10-11
 
 ### Added
