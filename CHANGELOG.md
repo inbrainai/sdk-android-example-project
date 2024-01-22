@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.4.0](https://github.com/inbrainai/sdk-android/releases/tag/2.4.0) - 2024-01-22
+
+### Added
+- Support of Panelist (Dynamic) Currency Sales - the SDK returns the active sale with the highest multiplier across all active Publisher and Panelist sales.
+---
+
 ## [2.3.0](https://github.com/inbrainai/sdk-android/releases/tag/2.3.0) - 2024-01-04
 
 ### Fixed
