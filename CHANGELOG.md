@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.4.1](https://github.com/inbrainai/sdk-android/releases/tag/2.4.1) - 2024-07-31
+
+### Fixed
+- Performance and stability improvements.
+---
+
 ## [2.4.0](https://github.com/inbrainai/sdk-android/releases/tag/2.4.0) - 2024-01-22
 
 ### Added
