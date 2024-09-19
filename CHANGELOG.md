@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.4.5](https://github.com/inbrainai/sdk-android/releases/tag/2.4.5) - 2024-09-19
+
+### Added/Fixed
+- Added support for the new `Offers` feature.
+- Disallow insecure network traffic.
+---
+
 ## [2.4.3](https://github.com/inbrainai/sdk-android/releases/tag/2.4.3) - 2024-07-31
 
 ### Fixed
