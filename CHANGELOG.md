@@ -1,6 +1,20 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.5.0](https://github.com/inbrainai/sdk-android/releases/tag/2.5.0) - 2024-11-18
+
+### Added/Fixed
+- Added an ability to show only surveys or only offers at the inBrain Wall.
+  `WallOption` enum
+  `openWall(Context, WallOption, StartSurveysCallback)` method
+  `showNativeSurvey(Context, Survey, boolean, StartSurveysCallback)` method
+  `showNativeSurveyWith(Context, String, String, boolean, StartSurveysCallback)` method
+- Deprecated some old methods.
+  `showSurveys(Context, StartSurveysCallback)` method
+  `showNativeSurvey(Context, Survey, StartSurveysCallback)` method
+  `showNativeSurveyWith(Context, String, String, StartSurveysCallback)` method
+---
+
 ## [2.4.5](https://github.com/inbrainai/sdk-android/releases/tag/2.4.5) - 2024-09-19
 
 ### Added/Fixed

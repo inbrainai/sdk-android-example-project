@@ -22,6 +22,7 @@ import com.inbrain.sdk.model.Reward;
 import com.inbrain.sdk.model.Survey;
 import com.inbrain.sdk.model.SurveyCategory;
 import com.inbrain.sdk.model.SurveyFilter;
+import com.inbrain.sdk.model.WallOption;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -135,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
      * Open the Survey Wall
      */
     private void openSurveyWall() {
-        InBrain.getInstance().showSurveys(this, new StartSurveysCallback() {
+        InBrain.getInstance().openWall(this, WallOption.ALL, new StartSurveysCallback() {
             @Override
             public void onSuccess() {
                 Log.d(LOG_TAG, "Survey Wall Displayed Successfully");
@@ -192,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showNativeSurvey(Survey survey) {
-        InBrain.getInstance().showNativeSurvey(this, survey, new StartSurveysCallback() {
+        InBrain.getInstance().showNativeSurvey(this, survey, true, new StartSurveysCallback() {
             @Override
             public void onSuccess() {
                 Log.d(LOG_TAG, "Successfully started InBrain");
