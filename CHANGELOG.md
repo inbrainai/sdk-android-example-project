@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.5.1](https://github.com/inbrainai/sdk-android/releases/tag/2.5.1) - 2025-02-25
+
+### Fixed
+- Fixed the usage of a deprecated method.
+  `setStatusBarColor(int)` method
+---
+
 ## [2.5.0](https://github.com/inbrainai/sdk-android/releases/tag/2.5.0) - 2024-11-18
 
 ### Added/Fixed
