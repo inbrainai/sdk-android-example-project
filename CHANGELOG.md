@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.5.2](https://github.com/inbrainai/sdk-android/releases/tag/2.5.2) - 2025-03-25
+
+### Changed
+- Default option for `showSurveys(Context context, fianl StartSurveyCallback callback)` is `WallOption.SURVEYS`
+- Disable the `offers` for `showNativeSurvey(Context context, Survey survey, final StartSurveysCallback callback)` function
+- Disable the `offers` for `showNativeSurveyWith(Context context, String surveyId, String searchId, final StartSurveysCallback callback)` function
+---
+
 ## [2.5.1](https://github.com/inbrainai/sdk-android/releases/tag/2.5.1) - 2025-02-25
 
 ### Fixed
