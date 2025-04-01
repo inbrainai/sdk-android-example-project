@@ -1,6 +1,26 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [3.0.0](https://github.com/inbrainai/sdk-android/releases/tag/3.0.0) - 2025-04-01
+
+### Changed
+- Upgrade `minSdk` version: 16 -> 21
+- Upgrade `dependencies` versions
+  `androidx.core:core-ktx`: `1.10.1` -> `1.15.0`
+  `androidx.webkit:webkit`: `1.4.0` -> `1.12.1`
+- Remove deprecated APIs in `InBrainCallback`
+  `default void surveysClosed()`
+  `default void surveysClosedFromPage()`
+- Remove deprecated APIs in `InBrain` class
+  `public void setInBrainValuesFor(String sessionID, HashMap<String, String> dataOptions)`
+  `public void setLanguage(String language)`
+  `public void showSurveys(Context context, final StartSurveysCallback callback)`
+  `public void showNativeSurvey(Context context, Survey survey, final StartSurveysCallback callback)`
+  `public void showNativeSurveyWith(Context context, String surveyId, String searchId, final StartSurveysCallback callback)`
+- Remove deprecated variable in `Survey` class
+  `public int conversionThreshold`
+---
+
 ## [2.5.2](https://github.com/inbrainai/sdk-android/releases/tag/2.5.2) - 2025-03-25
 
 ### Changed
