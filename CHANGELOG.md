@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 ## [3.0.1](https://github.com/inbrainai/sdk-android/releases/tag/3.0.1) - 2025-04-17
 
 ### Fixed
-- Fixed 'Toolbar' issue overlapped by 'StatusBar`
+- Fixed `Toolbar` issue overlapped by `StatusBar`
 ---
 
 ## [3.0.0](https://github.com/inbrainai/sdk-android/releases/tag/3.0.0) - 2025-04-01
